@@ -4,6 +4,7 @@
 
 1. Install Node.js LTS version at **https://nodejs.org/en/download/**
 2. Install expo cli with sudo npm i -g expo-cli
+3. Follow along steps at https://www.youtube.com/watch?v=0-S5a0eXPoc
 
 ## Once Environment Setup
 
