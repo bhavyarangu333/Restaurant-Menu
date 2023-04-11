@@ -8,7 +8,7 @@ const Payment = () => {
     return (
         <SafeAreaView style={style.container}>
 
-
+            <Text>Payment Options Page</Text>
 
 
         </SafeAreaView>
@@ -20,7 +20,9 @@ const style = StyleSheet.create({
 
     container:{
         flex:1,
-        backgroundColor:'white'
+        backgroundColor:'white',
+        justifyContent:'center',
+        alignItems:'center'
     },
 
 

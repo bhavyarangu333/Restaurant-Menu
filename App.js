@@ -4,12 +4,13 @@ import OrderHistory from './Screens/OrderHistory';
 import { getOrders } from './BackendAPI/Read_Write_UserOrders';
 import Tabs from './Navigation/TabBars';
 import { NavigationContainer } from '@react-navigation/native';
+import AuthNavigator from './Navigation/AuthNavigator';
 
 export default function App() {
   return (
 
     <NavigationContainer> 
-      <Tabs/> 
+      <AuthNavigator/> 
     </NavigationContainer>
   );
 }
