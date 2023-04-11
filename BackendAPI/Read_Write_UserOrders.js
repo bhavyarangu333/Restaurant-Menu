@@ -1,5 +1,5 @@
 import { db, auth } from "../firebase";
-import { collection, getDocs, addDoc, Timestamp, query, where } from "firebase/firestore"
+import { collection, getDocs, addDoc, Timestamp, query, where, orderBy } from "firebase/firestore"
 
 
 const currentUser = auth.currentUser;
@@ -9,7 +9,7 @@ async function getOrders(){
     const orders = [];
 
     const userOrderRef = collection(db, "User Orders");
-    const userOrders = query(userOrderRef, where("uid", "==", "User ID"));  //replace User ID with currentUser.uid once auth set up
+    const userOrders = query(userOrderRef, where("uid", "==", "User ID"), orderBy("Order_Date", "desc"));  //replace User ID with currentUser.uid once auth set up
     const querySnapshot = await getDocs(userOrders);
     querySnapshot.forEach((doc) => {
       orders.push(doc.data());
@@ -32,7 +32,6 @@ async function getOrders(){
     //console.log(orders)
     return orders;
 }
-
 
 
 /**
