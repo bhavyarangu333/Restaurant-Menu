@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import OrderHistory from './Screens/OrderHistory';
+import { getOrders } from './BackendAPI/Read_Write_UserOrders';
+import Tabs from './Navigation/TabBars';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+
+    <NavigationContainer> 
+      <Tabs/> 
+    </NavigationContainer>
   );
 }
 
