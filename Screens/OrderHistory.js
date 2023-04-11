@@ -50,17 +50,17 @@ const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
                 
                 <View style={{flexDirection:'row', marginBottom: 10}}>
 
-                    <View style={{height:20, width:100, backgroundColor:'lightgrey', borderRadius:10, justifyContent:'center'}}> 
-                        <Pressable style={{width:'100%', alignItems:'center'}} onPress={() =>console.log("Receipt button pressed.")}>
-                            <Text style={{fontWeight:'bold',fontSize:12}}>
+                    <View style={styles.viewReceiptButtonContainer}> 
+                        <Pressable style={styles.textContainer} onPress={() =>console.log("Receipt button pressed.")}>
+                            <Text style={styles.buttonText}>
                                 View Receipt 
                             </Text>
                         </Pressable>
                     </View>
 
-                    <View style={{height:20, width:100, backgroundColor:'lightgrey', borderRadius:10, justifyContent:'center', marginLeft:10}}> 
-                        <Pressable style={{width:'100%', alignItems:'center'}} onPress={() =>console.log("Reorder button pressed.")}>
-                            <Text style={{fontWeight:'bold',fontSize:12}}>
+                    <View style={styles.reOrderButtonContainer}> 
+                        <Pressable style={styles.textContainer} onPress={() =>console.log("Reorder button pressed.")}>
+                            <Text style={styles.buttonText}>
                                 Reorder
                             </Text>
                         </Pressable>
@@ -80,21 +80,20 @@ const OrderHistory = (props) => {
     
     const [userOrders, setUserOrders] = useState([]);
 
-   
+    //getting the recent orders whenever this page appears or "focuses"
     useFocusEffect(
         React.useCallback(() => {
             getOrders().then(result => {setUserOrders(result)})
     
-            return () => {console.log("Unfocused here. ")};
+            return () => {console.log("Unfocused here.")};
             },[])
     );
 
     return (
-
         <SafeAreaView style = {styles.container}> 
                 <FlatList
-                    data={userOrders} 
-                    renderItem={({item}) =>  <RenderOrders RestaurantName={item["Restaurant"]} OrderDate={item["Order_Date"].toDate().toDateString()} OrderItems={item["Orders"]} TotalCost={item["Total_Price"]}/> }
+                    data={userOrders}
+                    renderItem={({item}) => <RenderOrders RestaurantName={item["Restaurant"]} OrderDate={item["Order_Date"].toDate().toDateString()} OrderItems={item["Orders"]} TotalCost={item["Total_Price"]}/> }
                     keyExtractor={item => item["id"]}
                 />
             
@@ -136,6 +135,23 @@ const styles = StyleSheet.create({
     orderDetailsFont:{
         fontSize:11,
     },
+
+    viewReceiptButtonContainer:{
+        height:20,
+        width:100,
+        backgroundColor:'lightgrey',
+        borderRadius:10,
+        justifyContent:'center',
+    },
+
+    reOrderButtonContainer:{
+        height:20,
+        width:100,
+        backgroundColor:'lightgrey',
+        borderRadius:10,
+        justifyContent:'center',
+        marginLeft:10
+    },
     dotSeparator:{
         borderWith: StyleSheet.hairlineWidth,
         width:3,
@@ -152,7 +168,17 @@ const styles = StyleSheet.create({
     },
     itemOrderContainer: {
         marginBottom: 10,
+    },
+    textContainer:{
+        width:'100%',
+        alignItems:'center'
+    },
+
+    buttonText:{
+        fontWeight:'bold',
+        fontSize:12
     }
+
     
 
 
