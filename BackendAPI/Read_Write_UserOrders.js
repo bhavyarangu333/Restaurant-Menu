@@ -14,22 +14,6 @@ async function getOrders(){
     querySnapshot.forEach((doc) => {
       orders.push(doc.data());
     });
-    // return db.collection("User Orders").where("uid", "==", "User ID")
-    //         .get()
-    //         .then((querySnapshot) => {
-    //           let newOrders = []
-    //             querySnapshot.forEach((doc) => {
-    //         // doc.data() is never undefined for query doc snapshots
-    //               newOrders.push(doc.data())
-    //            // console.log(doc.id, " => ", doc.data());
-    //         });
-    //         return newOrders;
-    // })
-    //     .catch((error) => {
-    //         console.log("Error getting documents: ", error);
-    //       });
-     
-    //console.log(orders)
     return orders;
 }
 

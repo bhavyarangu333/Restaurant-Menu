@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getOrders } from '../BackendAPI/Read_Write_UserOrders';
 
 
 const Account = () => {
@@ -34,8 +33,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white'
-        
     },
+
     listSeparator: {
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor:'#DCDCDC',
@@ -46,14 +45,14 @@ const styles = StyleSheet.create({
     pressableContainer:{
         marginHorizontal:10
     },
+
     subHeader:{
         fontSize:16,
         fontWeight:'bold'
-
     },
+
     subText:{
         fontSize:11
-
     },
 
 });

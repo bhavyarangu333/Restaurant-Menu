@@ -1,7 +1,7 @@
-import React, { Component, useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Pressable } from 'react-native';
 import { getOrders } from '../BackendAPI/Read_Write_UserOrders';
-import Ionicon from '@expo/vector-icons/Ionicons'
+import Ionicon from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 
 const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
@@ -79,10 +79,9 @@ const OrderHistory = (props) => {
 
     //getting the recent orders whenever this page appears or "focuses"
     useFocusEffect(
-        React.useCallback(() => {
+        useCallback(() => {
             getOrders().then(result => {setUserOrders(result)});
-            console.log(userOrders[0])
-    
+            
             return () => {console.log("Unfocused here.")};
             },[])
     );
@@ -176,10 +175,6 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:12
     }
-
-    
-
-
 })
 
 
