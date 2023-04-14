@@ -1,19 +1,52 @@
-import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import { useState } from 'react';
+import {View, Text, StyleSheet, Pressable, Button} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { AddressSheet } from '@stripe/stripe-react-native';
 
 
 
 const Account = () => {
     const navigation = useNavigation();
+    const [adressSheet, setAddressSheet] = useState(false)
+   
     return (
-        <SafeAreaView style={styles.container}> 
-            <Pressable style={styles.pressableContainer} onPress={() => navigation.navigate('Manage Account')}> 
+        <SafeAreaView style={styles.container}>
+
+            <Pressable style={styles.pressableContainer} onPress={() => setAddressSheet(true)}> 
                 <Text style={styles.subHeader}>Manage Account</Text>
                 <Text style={styles.subText}>Update information and manage your account</Text>
                 <View style={styles.listSeparator}/>
             </Pressable>
+            
+            
+            <AddressSheet
+                presentationStyle='popover'
+                visible={adressSheet}
+                // appearance={{
+                //     // colors: {
+                //     // primary: '#F8F8F2',
+                //     // background: 'white',
+                //     // margin: 10
+                //     // }
+                // }}
+                defaultValues={{
+                    phone: '111-222-3333',
+                    address: {
+                    country: 'United States',
+                    city: 'San Francisco',
+                    },
+                }}
+                additionalFields={{
+                    phoneNumber: 'required',
+                }}
+                onError={(error) => {
+                    setAddressSheet(false)}}
+                allowedCountries={['US', 'CA', 'GB']}
+                primaryButtonTitle={'Save'}
+                sheetTitle={'Manage Account'}
+                
+            />
 
             <Pressable style={styles.pressableContainer} onPress={() => navigation.navigate('Manage Payment')}> 
                 <Text style={styles.subHeader}>Payment</Text>

@@ -1,6 +1,4 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import Account from '../Screens/ManageAccount';
-import Payment from '../Screens/Payment';
 import Tabs from './TabBars'
 
 
