@@ -5,38 +5,6 @@ import { StripeProvider, CardField, useConfirmPayment, AddressSheet } from '@str
 
 const API_URL = 'http://localhost:3000';
 
-// const Address = () => {
-//     const [adressSheet, setAddressSheet] = useState(true)
-//     return (
-//         <AddressSheet
-//         presentationStyle='popover'
-//             visible={adressSheet}
-//             appearance={{
-//                 colors: {
-//                 primary: '#F8F8F2',
-//                 background: '#272822',
-//                 margin: 10
-//                 }
-//             }}
-//             defaultValues={{
-//                 phone: '111-222-3333',
-//                 address: {
-//                 country: 'United States',
-//                 city: 'San Francisco',
-//                 },
-//             }}
-//             additionalFields={{
-//                 phoneNumber: 'required',
-//             }}
-//             onError={(error) => {setAddressSheet(false)}}
-//             allowedCountries={['US', 'CA', 'GB']}
-//             primaryButtonTitle={'Use this address'}
-//             sheetTitle={'Shipping Address'}
-            
-//         />
-//     )
-// };
-
 const Payment = () => {
     const [email, setEmail] = useState();
     const [cardDetails, setCardDetails] = useState();
@@ -113,8 +81,6 @@ const Payment = () => {
 
             <Button onPress={handleSave} title='Save' disabled={loading}/>
             
-            {/* <Address/> */}
-
             </SafeAreaView>
         </StripeProvider>
     )

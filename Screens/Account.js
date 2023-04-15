@@ -23,13 +23,6 @@ const Account = () => {
             <AddressSheet
                 presentationStyle='popover'
                 visible={adressSheet}
-                // appearance={{
-                //     // colors: {
-                //     // primary: '#F8F8F2',
-                //     // background: 'white',
-                //     // margin: 10
-                //     // }
-                // }}
                 defaultValues={{
                     phone: '111-222-3333',
                     address: {

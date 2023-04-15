@@ -32,3 +32,21 @@ app.post("/create-payment-intent", async (req, res) => {
       res.json({ error: e.message });
     }
   });
+
+  app.post('/payment-sheet', async (req, res) => {
+    // Use an existing Customer ID if this is a returning customer.
+    const customer = await stripe.customers.create();
+    const ephemeralKey = await stripe.ephemeralKeys.create(
+      {customer: customer.id},
+      {apiVersion: '2022-11-15'}
+    );
+    const setupIntent = await stripe.setupIntents.create({
+      customer: customer.id,
+    });
+    res.json({
+      setupIntent: setupIntent.client_secret,
+      ephemeralKey: ephemeralKey.secret,
+      customer: customer.id,
+      publishableKey: 'pk_test_51MwZH3AmdXqnDkBiZ9qNGFWUQSY7TttOb7f6ro3nl0sX64NX1G1OKWkZsXxn9yHCss32ENmKOFVMasc7VKLMPyEn00hZpFZdrA'
+    })
+  });
