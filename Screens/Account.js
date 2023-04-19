@@ -22,6 +22,13 @@ const Account = () => {
             
             <AddressSheet
                 presentationStyle='popover'
+                onSubmit={async (addressDetails) => {
+                    // handle result
+                    console.log(addressDetails);
+
+                    setAddressSheet(false);
+
+                }}
                 visible={adressSheet}
                 defaultValues={{
                     phone: '111-222-3333',

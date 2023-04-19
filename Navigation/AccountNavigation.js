@@ -7,8 +7,8 @@ const Stack = createStackNavigator();
 const AccountNavigator = () => {
 
     return(
-        <Stack.Navigator screenOptions={{headerShown:true}} initialRouteName='Account'>
-            <Stack.Screen name='Account' component={Account}/>     
+        <Stack.Navigator screenOptions={{headerShown:true, headerBackTitleVisible:false}} initialRouteName='Account'>
+            <Stack.Screen name='Account' component={Account} options={{headerLeft:null}}/>     
             <Stack.Screen name='Manage Payment' component={Payment}/>
 
         </Stack.Navigator>
