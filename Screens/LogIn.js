@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -13,32 +13,43 @@ const Login = () => {
     return(
         <SafeAreaView style={styles.container}>
             
-
                 <Text style={styles.title}>Restaurante</Text>
 
-                    <TextInput placeholder='Email'
-                        style={styles.input} 
-                        autoCapitalize='none' 
-                        autoComplete='false'
-                        onChangeText={text => setEmail(text)}
-                    />
+                <TextInput placeholder='Email'
+                    style={styles.input} 
+                    autoCapitalize='none' 
+                    autoCorrect={false}
+                    keyboardType='email-address'
+                    onChangeText={text => setEmail(text)}   
+                />
 
-                    <TextInput placeholder='Password'
-                        style={styles.input} 
-                        autoCapitalize='none' 
-                        autoComplete='false'
-                        secureTextEntry={true}
-                        onChangeText={text => setPassword(text)}
-                    />                
+                <TextInput placeholder='Password'
+                    style={styles.input} 
+                    autoCapitalize='none' 
+                    autoCorrect={false}
+                    secureTextEntry={true}
+                    onChangeText={text => setPassword(text)}
+                />
 
-                    <Pressable onPress={() => navigation.navigate('Home')} style={styles.button}>
-                        <Text style={{color:'white'}}>Log In</Text>
+                <Pressable onPress={() => navigation.navigate('Home')} style={styles.button}>
+                    <Text style={{color:'white'}}>Log In</Text>
+                </Pressable>
+
+                <View style={styles.row}>
+                    <Text>Don't have an account? </Text>
+                    <Pressable>
+                        <Text style={styles.subText}>Create Account</Text>
                     </Pressable>
+                </View>
+
+                <View style={styles.row}>
+                    <Text>Forgot Password? </Text>
+                    <Pressable>
+                        <Text style={styles.subText}>Reset Password</Text>
+                    </Pressable>
+                </View>
 
                 
-
-    
-
         </SafeAreaView>
 
     );
@@ -77,7 +88,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: '90%',
         justifyContent:'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 30
 
     },
 
@@ -87,6 +99,13 @@ const styles = StyleSheet.create({
         color:'purple',
         alignSelf:'center',
         bottom: 50  
+    },
+    row: {
+        flexDirection:'row',
+        justifyContent: 'center',
+    },
+    subText: {
+        color: 'purple'
     }
 
 

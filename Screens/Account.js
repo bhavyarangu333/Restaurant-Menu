@@ -8,7 +8,7 @@ import { AddressSheet } from '@stripe/stripe-react-native';
 
 const Account = () => {
     const navigation = useNavigation();
-    const [adressSheet, setAddressSheet] = useState(false)
+    const [adressSheet, setAddressSheet] = useState(false);
    
     return (
         <SafeAreaView style={styles.container}>
@@ -21,7 +21,7 @@ const Account = () => {
             
             
             <AddressSheet
-                presentationStyle='popover'
+                presentationStyle='fullscreen'
                 onSubmit={async (addressDetails) => {
                     // handle result
                     console.log(addressDetails);
