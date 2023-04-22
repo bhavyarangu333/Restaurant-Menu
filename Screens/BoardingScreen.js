@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, SafeAreaView, Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AddressSheet } from '@stripe/stripe-react-native';
+import { createUserWithEmailAndPassword } from '../BackendAPI/Authentication';
 
 
 
@@ -12,7 +13,7 @@ const OnboardingScreen = () => {
     const navigation = useNavigation();
     const [adressSheet, setAddressSheet] = useState(false);
 
-
+ 
     return(
         <SafeAreaView style={styles.container}>
 
@@ -22,15 +23,18 @@ const OnboardingScreen = () => {
                     <Text style={{color:'white'}}>Sign In</Text>
             </Pressable>
 
-            <Pressable onPress={() => setAddressSheet(true)} style={styles.button}>
+            <Pressable onPress={() => navigation.navigate('New user')} style={styles.button}>
                     <Text style={{color:'white'}}>Create Account</Text>
             </Pressable>
 
-            <AddressSheet
+            {/* <AddressSheet
                 presentationStyle='fullscreen'
                 onSubmit={async (addressDetails) => {
                     // handle result
                     console.log(addressDetails);
+                    if(createUserWithEmailAndPassword()){
+
+                    }
 
                     setAddressSheet(false);
 
@@ -49,10 +53,17 @@ const OnboardingScreen = () => {
                 onError={(error) => {
                     setAddressSheet(false)}}
                 allowedCountries={['US', 'CA', 'GB']}
-                primaryButtonTitle={'Save'}
+                primaryButtonTitle={'Save Info'}
                 sheetTitle={'Create Account'}
+                appearance = {{
+                    primaryButton:{
+                        colors:{
+                            background: '#800080'
+                        },
+                    }
+                }}
                 
-            />
+            /> */}
 
         </SafeAreaView>
     );
