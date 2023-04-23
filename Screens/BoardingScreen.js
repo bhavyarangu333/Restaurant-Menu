@@ -17,7 +17,7 @@ const OnboardingScreen = () => {
     return(
         <SafeAreaView style={styles.container}>
 
-            <Text style={styles.title}>Restaurante</Text>
+            <Text style={styles.title}>Welcome!</Text>
 
             <Pressable onPress={() => navigation.navigate('Login')} style={styles.button}>
                     <Text style={{color:'white'}}>Sign In</Text>
@@ -26,44 +26,6 @@ const OnboardingScreen = () => {
             <Pressable onPress={() => navigation.navigate('New user')} style={styles.button}>
                     <Text style={{color:'white'}}>Create Account</Text>
             </Pressable>
-
-            {/* <AddressSheet
-                presentationStyle='fullscreen'
-                onSubmit={async (addressDetails) => {
-                    // handle result
-                    console.log(addressDetails);
-                    if(createUserWithEmailAndPassword()){
-
-                    }
-
-                    setAddressSheet(false);
-
-                }}
-                visible={adressSheet}
-                defaultValues={{
-                    phone: '111-222-3333',
-                    address: {
-                    country: 'United States',
-                    city: 'San Francisco',
-                    },
-                }}
-                additionalFields={{
-                    phoneNumber: 'required',
-                }}
-                onError={(error) => {
-                    setAddressSheet(false)}}
-                allowedCountries={['US', 'CA', 'GB']}
-                primaryButtonTitle={'Save Info'}
-                sheetTitle={'Create Account'}
-                appearance = {{
-                    primaryButton:{
-                        colors:{
-                            background: '#800080'
-                        },
-                    }
-                }}
-                
-            /> */}
 
         </SafeAreaView>
     );

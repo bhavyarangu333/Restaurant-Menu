@@ -49,13 +49,6 @@ const Login = () => {
                 </Pressable>
 
                 <View style={styles.row}>
-                    <Text>Don't have an account? </Text>
-                    <Pressable>
-                        <Text style={styles.subText}>Create Account</Text>
-                    </Pressable>
-                </View>
-
-                <View style={styles.row}>
                     <Text>Forgot Password? </Text>
                     <Pressable>
                         <Text style={styles.subText}>Reset Password</Text>
