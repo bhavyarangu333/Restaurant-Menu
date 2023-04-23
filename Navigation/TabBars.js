@@ -23,8 +23,8 @@ function Tabs(){
             }
         })}> 
 
-            <Tab.Screen name = "Order History" component={OrderHistory} screenOptions={{headerShown:true}} />
-            <Tab.Screen name = "Settings" component={AccountNavigation}/> 
+            <Tab.Screen name = "Order History" component={OrderHistory} options={{headerShown:true}}/>
+            <Tab.Screen name = "Settings" component={AccountNavigation}/>
 
         </Tab.Navigator> 
     )
