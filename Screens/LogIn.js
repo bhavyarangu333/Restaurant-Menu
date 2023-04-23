@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 
 
 
@@ -31,7 +33,18 @@ const Login = () => {
                     onChangeText={text => setPassword(text)}
                 />
 
-                <Pressable onPress={() => navigation.navigate('Home')} style={styles.button}>
+                <Pressable onPress={() => {
+                    signInWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                        // Signed in 
+                            navigation.navigate('Home');
+                        })
+                        .catch((error) => {
+                            console.log(error.message);
+                            alert("Invalid Credentials");
+                        });
+                  
+                }} style={styles.button}>
                     <Text style={{color:'white'}}>Log In</Text>
                 </Pressable>
 
