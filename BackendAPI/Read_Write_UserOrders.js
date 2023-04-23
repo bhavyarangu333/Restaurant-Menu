@@ -40,9 +40,29 @@ try {
 
 } catch(error) {
   console.log(error)
-}
+};
 
-}
+};
 
+async function saveUser(name, address, postal_code, phone, city, country, uid){
 
-export {getOrders, saveOrder};
+  try {
+    const docRef = await addDoc(collection(db, "Users"), {
+      name: name,
+      address: address,
+      postal_code: postal_code,
+      phone: phone,
+      city: city,
+      country: country,
+      uid: uid
+    });
+  
+    console.log("Document written with ID: ", docRef.id);
+  
+  } catch(error) {
+    console.log(error)
+  };
+  
+  };
+  
+export {getOrders, saveOrder, saveUser};

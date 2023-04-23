@@ -3,7 +3,8 @@ import { View, SafeAreaView, Text, TextInput, StyleSheet, Pressable } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { AddressSheet } from '@stripe/stripe-react-native';
 import {db, auth} from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from 'firebase/auth';
+import { saveUser } from '../BackendAPI/Read_Write_UserOrders';
 
 
 
@@ -43,34 +44,32 @@ const NewAuth = () => {
             />
 
             <Pressable style={styles.button} onPress={() => {
-                createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                  // Signed in 
-                  const user = userCredential.user;
-                  navigation.navigate('Home')
-                  // ...
-                })
-                .catch((error) => {
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  console.log(errorMessage);
-                  // ..
-                });
-            }}>
+                fetchSignInMethodsForEmail(auth, email)
+                    .then((result) => {
+                        if (result.length !== 0) { alert("Registered Account"); }
+                        else { setAddressSheet(true) }
+                    });
+            }} >
                 <Text style={{color:'white'}}>Continue</Text>
             </Pressable>
 
             <AddressSheet
                 presentationStyle='fullscreen'
                 onSubmit={async (addressDetails) => {
-                    // handle result
-                    console.log(addressDetails);
-                    if(createUserWithEmailAndPassword()){
+                    // handle result                
+                    createUserWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                            // Signed in 
+                            saveUser(addressDetails.name, addressDetails.address.line1, addressDetails.address.postalCode, addressDetails.phone, addressDetails.address.city, addressDetails.address.country, userCredential.user.uid);
+                            setAddressSheet(false);
+                            navigation.navigate('Home');
 
-                    }
-
-                    setAddressSheet(false);
-
+                        })
+                        .catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            console.log(errorMessage);
+                        });
                 }}
                 visible={adressSheet}
                 defaultValues={{
@@ -82,9 +81,11 @@ const NewAuth = () => {
                 }}
                 additionalFields={{
                     phoneNumber: 'required',
+                    email:'required'
                 }}
                 onError={(error) => {
-                    setAddressSheet(false)}}
+                    setAddressSheet(false);
+                }}
                 allowedCountries={['US', 'CA', 'GB']}
                 primaryButtonTitle={'Save Info'}
                 sheetTitle={'Create Account'}
