@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { View, SafeAreaView, Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AddressSheet } from '@stripe/stripe-react-native';
-import { createUserWithEmailAndPassword } from '../BackendAPI/Authentication';
 
 
 

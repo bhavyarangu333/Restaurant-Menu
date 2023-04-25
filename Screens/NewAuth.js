@@ -7,7 +7,6 @@ import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from 'fire
 import { saveUser } from '../BackendAPI/Read_Write_UserOrders';
 
 
-
 const NewAuth = () => {
 
     const navigation = useNavigation();
@@ -70,6 +69,8 @@ const NewAuth = () => {
                             const errorMessage = error.message;
                             console.log(errorMessage);
                         });
+                    
+                    
                 }}
                 visible={adressSheet}
                 defaultValues={{

@@ -66,13 +66,13 @@ async function saveUser(name, address, postal_code, phone, city, country, state,
   
   };
 
-  async function getUser(){
+async function getUser(){
 
-    const userDataRef = doc(db, "Users", auth.currentUser.uid);
-    const userDocSnap = await getDoc(userDataRef);
-    
-    if ((userDocSnap).exists()){ return userDocSnap.data(); }
-    else {console.log('No such document.'); }
+  const userDataRef = doc(db, "Users", auth.currentUser.uid);
+  const userDocSnap = await getDoc(userDataRef);
+
+  if ((userDocSnap).exists()){ return userDocSnap.data(); }
+  else {console.log('No such document.'); }
 
 };
   
