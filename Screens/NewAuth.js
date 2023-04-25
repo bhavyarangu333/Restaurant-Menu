@@ -60,7 +60,7 @@ const NewAuth = () => {
                     createUserWithEmailAndPassword(auth, email, password)
                         .then((userCredential) => {
                             // Signed in 
-                            saveUser(addressDetails.name, addressDetails.address.line1, addressDetails.address.postalCode, addressDetails.phone, addressDetails.address.city, addressDetails.address.country, userCredential.user.uid);
+                            saveUser(addressDetails.name, addressDetails.address.line1, addressDetails.address.postalCode, addressDetails.phone, addressDetails.address.city, addressDetails.address.country, addressDetails.address.state, userCredential.user.uid);
                             setAddressSheet(false);
                             navigation.navigate('Home');
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { useFocusEffect } from '@react-navigation/native';
 import { createToken } from '../BackendAPI/DoordashJWT';

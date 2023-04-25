@@ -1,5 +1,5 @@
 import { db, auth } from "../firebase";
-import { collection, getDocs, addDoc, Timestamp, query, where, orderBy } from "firebase/firestore"
+import { collection, getDocs, addDoc, Timestamp, query, where, orderBy, getDoc, setDoc, doc } from "firebase/firestore"
 
 
 const currentUser = auth.currentUser;
@@ -44,17 +44,18 @@ try {
 
 };
 
-async function saveUser(name, address, postal_code, phone, city, country, uid){
+async function saveUser(name, address, postal_code, phone, city, country, state, uid){
 
+  const refUser = collection(db, "Users");
   try {
-    const docRef = await addDoc(collection(db, "Users"), {
+      const docRef = await setDoc(doc(refUser, uid), {
       name: name,
       address: address,
       postal_code: postal_code,
       phone: phone,
       city: city,
+      state: state,
       country: country,
-      uid: uid
     });
   
     console.log("Document written with ID: ", docRef.id);
@@ -64,5 +65,15 @@ async function saveUser(name, address, postal_code, phone, city, country, uid){
   };
   
   };
+
+  async function getUser(){
+
+    const userDataRef = doc(db, "Users", auth.currentUser.uid);
+    const userDocSnap = await getDoc(userDataRef);
+    
+    if ((userDocSnap).exists()){ return userDocSnap.data(); }
+    else {console.log('No such document.'); }
+
+};
   
-export {getOrders, saveOrder, saveUser};
+export {getOrders, saveOrder, saveUser, getUser };
