@@ -1,30 +1,49 @@
-import JWT from 'expo-jwt';
+import axios from 'axios';
+import {auth} from '../firebase'
 
 
 
-const createToken = () => {
+const API_URL = 'http://localhost:3001';
 
-    
-    const accessKey = {
-        "developer_id": "f6e9bd3c-d2cc-4ed1-beea-3506ed86a11c",
-        "key_id": "c0b96a26-07f7-4ab9-9131-1f20c9db8d93",
-        "signing_secret": "knVWXdDqcWuMj6s4Iq7Ct4kjp09YwzX3pizPmGS_SYE"
-      }
+const fetchToken = async () => {
 
-    const data = {
-        aud: 'doordash',
-        iss: accessKey.developer_id,
-        kid: accessKey.key_id,
-        exp: Math.floor(Date.now() + 1800),
-        iat: Math.floor(Date.now() / 1000)
-    }
+    const response = await fetch(`${API_URL}/create_token`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', 
+        },
+        });
 
-    //const headers = { algorithm: 'HS256', header: { 'dd-ver': 'DD-JWT-V1' } }
+    const { token, delivery_id } = await response.json();
 
-    let token = JWT.encode(data, accessKey.signing_secret, { algorithm:'HS256' })
+    return { token, delivery_id };
+};
 
-    console.log(token)
+const makeDelivery = async () => {
+    const { token, delivery_id } = await fetchToken();
+
+    const body = JSON.stringify({
+        external_delivery_id: delivery_id,
+        pickup_address: '901 Market Street 6th Floor San Francisco, CA 94103',
+        pickup_business_name: 'Wells Fargo SF Downtown',
+        pickup_phone_number: '+16505555555',
+        pickup_instructions: 'Enter gate code 1234 on the callbox.',
+        dropoff_address: '901 Market Street 6th Floor San Francisco, CA 94103',
+        dropoff_business_name: 'Wells Fargo SF Downtown',
+        dropoff_phone_number: '+16505555555',
+        dropoff_instructions: 'Enter gate code 1234 on the callbox.',
+        order_value: 2000
+    });
+
+    const response = await axios.post('https://openapi.doordash.com/drive/v2/deliveries', body, {
+        headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+        },
+    })
+
+    return response.data;
 
 };
 
-export { createToken };
+export { makeDelivery };

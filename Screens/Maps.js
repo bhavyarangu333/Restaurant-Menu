@@ -1,9 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import MapView from 'react-native-maps';
 import { useFocusEffect } from '@react-navigation/native';
 import { createToken } from '../BackendAPI/DoordashJWT';
-
+import { auth } from '../firebase';
+import { makeDelivery } from '../BackendAPI/DoordashJWT';
 
 
 
@@ -12,13 +13,10 @@ const Maps = () => {
     useFocusEffect(
         useCallback(() => {
 
-            //console.log(Date.now() / 1000 + 60);
-            createToken();
-            
             return () => {console.log("Unfocused here.")};
             },[])
     );
-
+    
     return (
         <View style={styles.container}>
             <MapView style={styles.map} />
