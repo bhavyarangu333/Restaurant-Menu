@@ -7,7 +7,6 @@ import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from 'fire
 import { saveUser } from '../BackendAPI/Read_Write_UserOrders';
 
 
-
 const NewAuth = () => {
 
     const navigation = useNavigation();
@@ -60,7 +59,7 @@ const NewAuth = () => {
                     createUserWithEmailAndPassword(auth, email, password)
                         .then((userCredential) => {
                             // Signed in 
-                            saveUser(addressDetails.name, addressDetails.address.line1, addressDetails.address.postalCode, addressDetails.phone, addressDetails.address.city, addressDetails.address.country, userCredential.user.uid);
+                            saveUser(addressDetails.name, addressDetails.address.line1, addressDetails.address.postalCode, addressDetails.phone, addressDetails.address.city, addressDetails.address.country, addressDetails.address.state, userCredential.user.uid);
                             setAddressSheet(false);
                             navigation.navigate('Home');
 
@@ -70,6 +69,7 @@ const NewAuth = () => {
                             const errorMessage = error.message;
                             console.log(errorMessage);
                         });
+                    
                 }}
                 visible={adressSheet}
                 defaultValues={{

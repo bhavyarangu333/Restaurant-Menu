@@ -1,15 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {View, Text, StyleSheet, Pressable, Button} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { AddressSheet } from '@stripe/stripe-react-native';
-
+import { getUser } from '../BackendAPI/Read_Write_UserOrders';
 
 
 const Account = () => {
     const navigation = useNavigation();
     const [adressSheet, setAddressSheet] = useState(false);
-   
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [phone, setPhone] = useState('');
+    const [postal, setPostal] = useState('');
+    const [name, setName] = useState('');
+    const [country, setCountry] = useState('');
+    const [state, setState] = useState('');
+
+    useEffect(() => {
+        getUser().then((res) => {
+            setAddress(res["address"]);
+            setCity(res["city"]);
+            setCountry(res["country"]);
+            setName(res["name"]);
+            setPhone(res["phone"]);
+            setPostal(res["postal_code"]);
+            setState(res["state"]);            
+        });
+
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
 
@@ -31,10 +51,14 @@ const Account = () => {
                 }}
                 visible={adressSheet}
                 defaultValues={{
-                    phone: '111-222-3333',
+                    phone: phone,
+                    name: name,
                     address: {
-                    country: 'United States',
-                    city: 'San Francisco',
+                        country: country,
+                        city: city,
+                        line1: address,
+                        state: state,
+                        postalCode: postal
                     },
                 }}
                 additionalFields={{

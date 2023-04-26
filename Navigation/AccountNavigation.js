@@ -13,7 +13,7 @@ const AccountNavigator = () => {
 
         </Stack.Navigator>
     )
-}
+};
 
 
 export default AccountNavigator;
