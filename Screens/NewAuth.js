@@ -70,7 +70,6 @@ const NewAuth = () => {
                             console.log(errorMessage);
                         });
                     
-                    
                 }}
                 visible={adressSheet}
                 defaultValues={{
