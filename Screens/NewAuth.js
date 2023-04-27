@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
         button: {
             marginTop: 20,
             height: 50,
-            backgroundColor: 'purple',
+            backgroundColor: '#894AFF',
             borderRadius: 8,
             borderWidth: 1,
             width: '90%',

@@ -14,7 +14,7 @@ const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
                     <Text style={styles.RestaurantTitle}>
                         {RestaurantName}
                     </Text>
-                    <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center'}}/>
+                    <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center', color:'#894AFF'}}/>
                 </View>
                 
                 <View style={styles.orderDetailsContainer}> 

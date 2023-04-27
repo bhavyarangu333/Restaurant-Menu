@@ -14,7 +14,7 @@ function Tabs(){
     return (
         <Tab.Navigator screenOptions={({route}) => ({
             headerShown: false,
-            tabBarActiveTintColor: 'purple',
+            tabBarActiveTintColor: '#894AFF',
             tabBarInactiveTintColor: '#444',
             tabBarIcon: ({focused, color, size}) => {
                 let iconName = "";
