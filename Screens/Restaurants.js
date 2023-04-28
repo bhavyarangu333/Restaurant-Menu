@@ -1,5 +1,5 @@
 import {} from 'react';
-import { SafeAreaView, Text, Pressable, View, StyleSheet } from 'react-native';
+import { SafeAreaView, Text, Pressable, View, StyleSheet, ScrollView } from 'react-native';
 
 
 
@@ -9,8 +9,11 @@ const Restaurants = () => {
     
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Restaurants</Text>
 
+            <ScrollView contentContainerStyle={{flexGrow:1}} nestedScrollEnabled={true}>
+                <Text style={styles.headerText}>Restaurants</Text>
+            </ScrollView>
+            
         </SafeAreaView>
     );
 };
@@ -23,6 +26,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white'
     },
+    headerText: {
+        fontSize: 25,
+        fontWeight:'bold',
+        color: '#894AFF',
+        marginTop: 10,
+        marginHorizontal: 10
+
+    }
 
 });
 
