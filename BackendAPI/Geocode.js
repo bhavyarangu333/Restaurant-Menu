@@ -19,24 +19,15 @@ const fetchRestaurants = async () => {
 };
 
 const fetchPhotos = async () => {
-    const restaurants = await fetchRestaurants();
-    const photoRef = restaurants.results[0].photos[0].photo_reference;
-    const fetchPhoto = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxheight=400&maxwidth=400&photo_reference=${photoRef}&key=AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A`);
-    console.log(photoRef)
 
-    return fetchPhoto;
+    const photo = await fetch(`${API_URL}/fetchPhotos`);
+    const photoData = await photo.json();
 
-};
+    return photoData;
 
-const useEndpoint = async () => {
-
-    const msg = await fetch('https://restaurante-api-git-main-angyb00.vercel.app/foo');
-    const res = await msg.json();
-
-    return res; 
 };
 
 
 
 
-export {getNearbyRegion, fetchRestaurants, fetchPhotos, useEndpoint};
+export { getNearbyRegion, fetchRestaurants, fetchPhotos };

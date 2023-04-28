@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { AddressSheet } from '@stripe/stripe-react-native';
 import { getUser } from '../BackendAPI/Read_Write_UserOrders';
-import { fetchRestaurants, fetchPhotos, useEndpoint, getNearbyRegion } from '../BackendAPI/Geocode';
+import { fetchRestaurants, fetchPhotos, getNearbyRegion } from '../BackendAPI/Geocode';
 import { makeDelivery } from '../BackendAPI/DoordashJWT';
 
 
@@ -45,6 +45,8 @@ const Account = () => {
         //     .then((res) => {console.log(res.result.results.length)});
         // getNearbyRegion()
         // .then((res) => {console.log(res)});
+        fetchPhotos()
+        .then(res => console.log(res.result)) 
 
     }, []);
 
