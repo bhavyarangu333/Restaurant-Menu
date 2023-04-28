@@ -3,7 +3,7 @@ import {auth} from '../firebase'
 
 
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://restaurante-api.vercel.app';
 
 const fetchToken = async () => {
 

@@ -3,7 +3,7 @@ import { Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import { StripeProvider, CardField, useConfirmPayment, useStripe } from '@stripe/stripe-react-native';
 
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://restaurante-api.vercel.app';
 
 const Payment = () => {
     const [email, setEmail] = useState();
@@ -133,7 +133,7 @@ const Payment = () => {
 
             {/* <Button onPress={handleSave} title='Save' disabled={loadingPayment}/> */}
             
-            <Pressable disabled={!loading} onPress={() => openPaymentSheet()} style={{justifyContent: 'center', alignItems:'center', margin: 10, backgroundColor:'black', height:40, borderRadius:8}}>
+            <Pressable disabled={!loading} onPress={() => openPaymentSheet()} style={{justifyContent: 'center', alignItems:'center', margin: 10, backgroundColor:'#894AFF', height:40, borderRadius:8}}>
                 <Text style={{color:'white'}}>Set Up Payment</Text>
             </Pressable>
 

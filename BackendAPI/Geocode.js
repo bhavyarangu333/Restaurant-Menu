@@ -1,14 +1,33 @@
 import {auth} from '../firebase';
 
-const getLatLng = async () => {
+const API_URL = 'https://restaurante-api.vercel.app';
 
-    const address = "800 N State College Blvd, Fullerton, CA 92831";    //replace with users location
+const getNearbyRegion = async () => {
 
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBGZ3oSQ3YgTwNfkJ62Q-5GaRZw9ReR1yY`)
-    const jsonResponse = await response.json();
+    const regions = await fetch(`${API_URL}/getRegion`);
+    const regionData = await regions.json();
 
-    return [jsonResponse.results[0].geometry.location.lat, jsonResponse.results[0].geometry.location.lng];
-}
+    return regionData;
+};
+
+const fetchRestaurants = async () => {
+
+    const restaurant = await fetch(`${API_URL}/fetchNearbyRestaurants`);
+    const responseData = await restaurant.json();
+    
+    return responseData;
+};
+
+const fetchPhotos = async () => {
+
+    const photo = await fetch(`${API_URL}/fetchPhotos`);
+    const photoData = await photo.json();
+
+    return photoData;
+
+};
 
 
-export {getLatLng};
+
+
+export { getNearbyRegion, fetchRestaurants, fetchPhotos };

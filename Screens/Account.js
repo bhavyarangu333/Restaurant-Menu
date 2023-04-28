@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { AddressSheet } from '@stripe/stripe-react-native';
 import { getUser } from '../BackendAPI/Read_Write_UserOrders';
+import { fetchRestaurants, fetchPhotos, getNearbyRegion } from '../BackendAPI/Geocode';
+import { makeDelivery } from '../BackendAPI/DoordashJWT';
 
 
 const Account = () => {
@@ -18,15 +20,33 @@ const Account = () => {
     const [state, setState] = useState('');
 
     useEffect(() => {
-        getUser().then((res) => {
-            setAddress(res["address"]);
-            setCity(res["city"]);
-            setCountry(res["country"]);
-            setName(res["name"]);
-            setPhone(res["phone"]);
-            setPostal(res["postal_code"]);
-            setState(res["state"]);            
-        });
+        // getUser().then((res) => {
+        //     setAddress(res["address"]);
+        //     setCity(res["city"]);
+        //     setCountry(res["country"]);
+        //     setName(res["name"]);
+        //     setPhone(res["phone"]);
+        //     setPostal(res["postal_code"]);
+        //     setState(res["state"]);            
+        // });
+        //fetchNearbyRestaurants();
+        // fetchPhotos()
+        //     .then((res) => {console.log(res)});
+        //useEndpoint()
+        // fetchRestaurants()
+        //     .then((res) => {
+        //         console.log(res)
+        //     });
+        // makeDelivery()
+        //     .then((res) => {
+        //         console.log(res)
+        //     })
+        // fetchRestaurants()
+        //     .then((res) => {console.log(res.result.results.length)});
+        // getNearbyRegion()
+        // .then((res) => {console.log(res)});
+        fetchPhotos()
+        .then(res => console.log(res.result)) 
 
     }, []);
 

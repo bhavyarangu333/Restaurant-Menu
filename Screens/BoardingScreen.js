@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     title: {
         fontWeight:'bold',
         fontSize: 36,
-        color:'purple',
+        color:'#894AFF',
         alignSelf:'center',
         bottom: 50  
     },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 20,
         height: 50,
-        backgroundColor: 'purple',
+        backgroundColor: '#894AFF',
         borderRadius: 8,
         borderWidth: 1,
         width: '90%',
