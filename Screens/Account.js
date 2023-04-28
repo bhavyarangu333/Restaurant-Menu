@@ -45,8 +45,8 @@ const Account = () => {
         //     .then((res) => {console.log(res.result.results.length)});
         // getNearbyRegion()
         // .then((res) => {console.log(res)});
-        fetchPhotos()
-        .then(res => console.log(res.result)) 
+        // fetchPhotos()
+        // .then(res => console.log(res.result)) 
 
     }, []);
 
