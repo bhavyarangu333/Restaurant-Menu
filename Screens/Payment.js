@@ -3,7 +3,7 @@ import { Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import { StripeProvider, CardField, useConfirmPayment, useStripe } from '@stripe/stripe-react-native';
 
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://restaurante-api.vercel.app';
 
 const Payment = () => {
     const [email, setEmail] = useState();

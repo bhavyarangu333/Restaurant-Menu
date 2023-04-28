@@ -1,31 +1,20 @@
 import {auth} from '../firebase';
 
-const getLatLng = async () => {
+const API_URL = 'https://restaurante-api.vercel.app';
 
-    const address = "800 N State College Blvd, Fullerton, CA 92831";    //replace with users location
+const getNearbyRegion = async () => {
 
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A`)
-    const jsonResponse = await response.json();
+    const regions = await fetch(`${API_URL}/getRegion`);
+    const regionData = await regions.json();
 
-    return [jsonResponse.results[0].geometry.location.lat, jsonResponse.results[0].geometry.location.lng];
+    return regionData;
 };
 
 const fetchRestaurants = async () => {
-    const response = await fetch('https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+toronto+canada&key=AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A');
-    //const restaurant = await fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=chinese&key=AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A');
-    //const restaurantData = await restaurant.json();
-    //const photoRef = restaurantData.results[2];
-    const responseData = await response.json();
-    //const photoRef = responseData.results[1].photos[0].photo_reference;
-    //const fetchPhoto = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxheight=400&maxwidth=400&photo_reference=${photoRef}&key=AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A`);
-    //const photo = await fetchPhoto.json();
 
-    //const data = await response.json();
-    //console.log(responseData);
-    //console.log(responseData.results.length)
-    //console.log(photo);
-    //return photo;
-    //console.log(data);
+    const restaurant = await fetch(`${API_URL}/fetchNearbyRestaurants`);
+    const responseData = await restaurant.json();
+    
     return responseData;
 };
 
@@ -33,14 +22,21 @@ const fetchPhotos = async () => {
     const restaurants = await fetchRestaurants();
     const photoRef = restaurants.results[0].photos[0].photo_reference;
     const fetchPhoto = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxheight=400&maxwidth=400&photo_reference=${photoRef}&key=AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A`);
-    //const photo = await fetchPhoto.json();
     console.log(photoRef)
 
     return fetchPhoto;
 
 };
 
+const useEndpoint = async () => {
+
+    const msg = await fetch('https://restaurante-api-git-main-angyb00.vercel.app/foo');
+    const res = await msg.json();
+
+    return res; 
+};
 
 
 
-export {getLatLng, fetchRestaurants, fetchPhotos};
+
+export {getNearbyRegion, fetchRestaurants, fetchPhotos, useEndpoint};
