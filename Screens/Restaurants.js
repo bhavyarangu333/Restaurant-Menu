@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { SafeAreaView, Text, Pressable, View, StyleSheet, ScrollView, FlatList, Image } from 'react-native';
 import { fetchPhotos, fetchRestaurants } from '../BackendAPI/Geocode';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 
 
@@ -47,10 +49,14 @@ const Restaurants = () => {
                     <Image source={{uri: photoURI}} style={{flex:1, resizeMode:'cover'}}/>
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                         <Text style={{fontWeight:'bold', width:'60%'}} numberOfLines={1}>{restaurantData.name}</Text>
-                        <Text>{restaurantData.rating}</Text>
+                        <View style={{flexDirection:'row'}}>
+                            <Text>{restaurantData.rating}</Text>
+                            <Ionicons name='star' size={15}/>
+                        </View>
                     </View>
-                    <Text numberOfLines={1}>{restaurantData.vicinity}</Text>
+                    <Text style={{marginBottom:10}} numberOfLines={1}>{restaurantData.vicinity}</Text>
                 </View>
+                <View style={styles.listSeparator}/>
 
             </View>
             
@@ -71,16 +77,14 @@ const Restaurants = () => {
                     showsHorizontalScrollIndicator = {false}
                     data={chineseFood}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
-
                 />
-                <Text style={styles.subHeaders}>Mexican</Text>
 
+                <Text style={styles.subHeaders}>Mexican</Text>
                 <FlatList
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}
                     data={mexicanFood}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
-
                 />
                 <Text style={styles.subHeaders}>Indian</Text>
                 <FlatList
@@ -128,6 +132,11 @@ const styles = StyleSheet.create({
         color: '#894AFF',
         marginTop: 10,
         marginHorizontal: 10,
+    },
+
+    listSeparator: {
+        borderBottomWidth:10,
+        borderBottomColor:'#DCDCDC'
     }
 
 });
