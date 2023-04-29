@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import { SafeAreaView, View, Text, FlatList, ScrollView, Pressable, StyleSheet, Image } from 'react-native';
+import { SafeAreaView, View, Text, FlatList, ScrollView, Pressable, StyleSheet, Image, Modal } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -19,10 +19,10 @@ const RestaurantMenu = (props) => {
     let hours;
 
     if (props.route.params.open) {
-        hours = <Text>Open</Text>
+        hours = <Text style={{fontSize: 14}}>Open</Text>
     }
     else {
-        hours = <Text>Closed</Text>
+        hours = <Text style={{fontSize: 14}}>Closed</Text>
     }
 
     return (
@@ -41,13 +41,60 @@ const RestaurantMenu = (props) => {
                 </View>
 
                 <View style = {{borderBottomWidth:StyleSheet.hairlineWidth, borderBottomColor:'#CED0CE', marginBottom: 20, marginHorizontal:20}}>
-                    <Text style={{fontSize: 14}}>{hours}</Text>
+                    {/* <Text style={{fontSize: 14}}>{hours}</Text> */}
+                    {hours}
                     <Text style={{fontSize: 14}}>{props.route.params.location}</Text>
                 </View>
-                <Text style={{fontWeight:'bold', fontSize:25}}>Featured Items</Text>
+
+                <Text style={styles.subHeader}>Featured Items</Text>
+
+                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                    <Text style={styles.menuTitle}>Combo A</Text>
+                    <Text>Fried rice, teriyaki chicken, and veggies</Text>
+                    <Text>$10.99</Text>
+                </Pressable>
+
+                <View style={styles.listSeparator}/>
+
                 
-                
-            
+                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                    <Text style={styles.menuTitle}>Combo B</Text>
+                    <Text>Chow Mein, Orange Chicken, and veggies</Text>
+                    <Text>$11.99</Text>
+                </Pressable>
+
+                <View style={styles.listSeparator}/>
+
+                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                    <Text style={styles.menuTitle}>Chow Mein</Text>
+                    <Text>$4.99</Text>
+                </Pressable>
+
+                <View style={{borderBottomWidth:10, borderBottomColor:'#DCDCDC', marginBottom: 20}}/>
+
+                <Text style={styles.subHeader}>Soft Drinks</Text>
+
+                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                    <Text style={styles.menuTitle}>Horchata</Text>
+                    <Text>$3.99</Text>
+                </Pressable>
+
+                <View style={styles.listSeparator}/>
+
+                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                    <Text style={styles.menuTitle}>Coca Cola</Text>
+                    <Text>$2.99</Text>
+                </Pressable>
+
+                <View style={styles.listSeparator}/>
+
+                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                    <Text style={styles.menuTitle}>Bottled Water</Text>
+                    <Text>$1.99</Text>
+                </Pressable>
+
+                <View style={styles.listSeparator}/>
+
             </ScrollView>
             
         </SafeAreaView>
@@ -76,6 +123,26 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         fontSize: 32,
     },
+    listSeparator: {
+        borderBottomWidth:10,
+        borderBottomColor:'#DCDCDC'
+    },
+    menuButtons: {
+        marginHorizontal: 10,
+        height: 100,
+        width:'100%',
+        justifyContent:'center'
+    },
+    menuTitle:{
+        fontSize:15,
+        fontWeight:'bold'
+    },
+    subHeader:{
+        marginHorizontal:10,
+        fontWeight:'bold',
+        fontSize:25,
+        marginBottom: 10
+    }
 
 
 });
