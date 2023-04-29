@@ -24,12 +24,12 @@ const makeDelivery = async () => {
 
     const body = JSON.stringify({
         external_delivery_id: delivery_id,
-        pickup_address: '901 Market Street 6th Floor San Francisco, CA 94103',
-        pickup_business_name: 'Wells Fargo SF Downtown',
+        pickup_address: '11745 Whittier Blvd, Whittier',
+        pickup_business_name: 'China Wok Express',
         pickup_phone_number: '+16505555555',
         pickup_instructions: 'Enter gate code 1234 on the callbox.',
-        dropoff_address: '901 Market Street 6th Floor San Francisco, CA 94103',
-        dropoff_business_name: 'Wells Fargo SF Downtown',
+        dropoff_address: '800 N State College Blvd, Fullerton, CA 92831',
+        dropoff_business_name: 'Cal State Fullerton',
         dropoff_phone_number: '+16505555555',
         dropoff_instructions: 'Enter gate code 1234 on the callbox.',
         order_value: 2000

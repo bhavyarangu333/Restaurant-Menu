@@ -18,9 +18,9 @@ const fetchRestaurants = async () => {
     return responseData;
 };
 
-const fetchPhotos = async () => {
+const fetchPhotos = async (photoRef) => {
 
-    const photo = await fetch(`${API_URL}/fetchPhotos`);
+    const photo = await fetch(`${API_URL}/fetchPhotos?photoRef=${photoRef}`);
     const photoData = await photo.json();
 
     return photoData;
