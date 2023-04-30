@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import { SafeAreaView, View, Text, FlatList, ScrollView, Pressable, StyleSheet, Image, Modal } from 'react-native';
+import {useEffect, useState} from 'react';
+import { SafeAreaView, View, Text, FlatList, ScrollView, Pressable, StyleSheet, Image, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,11 +10,15 @@ const RestaurantMenu = (props) => {
     const navigation = useNavigation();
     navigation.setOptions({
         headerTitle: 'Order',
+        headerRight: () => (
+            <Ionicons name='cart' size={25} style={{marginRight:15}} onPress={() => { navigation.navigate('Cart', {orders:currentItem}) }}/>
+        )
       });
     
     useEffect(() => {
-        //console.log(props.route.params.menuPhoto)
-    },[])
+        setCurrentItem([{item: 'Combo B', price: '$10.11'}])
+
+    },[]);
 
     let hours;
 
@@ -25,8 +29,16 @@ const RestaurantMenu = (props) => {
         hours = <Text style={{fontSize: 14}}>Closed</Text>
     }
 
+    const addToCart = (itemName, priceOfItem ) => {
+        setCurrentItem([...currentItem, {item: itemName, price: priceOfItem}]);
+    };
+
+    const [orders, setOrder] = useState([{}]);
+    const [currentItem, setCurrentItem] = useState([{}]);
+
     return (
         <SafeAreaView style={styles.container}>
+            
             <ScrollView contentContainerStyle={{flexGrow:1}}>
 
                 <View style={styles.imageContainer}>
@@ -41,57 +53,89 @@ const RestaurantMenu = (props) => {
                 </View>
 
                 <View style = {{borderBottomWidth:StyleSheet.hairlineWidth, borderBottomColor:'#CED0CE', marginBottom: 20, marginHorizontal:20}}>
-                    {/* <Text style={{fontSize: 14}}>{hours}</Text> */}
                     {hours}
                     <Text style={{fontSize: 14}}>{props.route.params.location}</Text>
                 </View>
 
                 <Text style={styles.subHeader}>Featured Items</Text>
 
-                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Combo A</Text>
                     <Text>Fried rice, teriyaki chicken, and veggies</Text>
                     <Text>$10.99</Text>
-                </Pressable>
+                    <Pressable style={styles.orderButtonContainer} onPress={() => {
+                        Alert.alert('Cart', 'Add to Cart?',[
+                            {
+                                text: 'Cancel',
+                                onPress: () => console.log("Cancelled pressed"),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Add to Cart',
+                                onPress: () => {
+                                    addToCart('Combo A', '$10.99')
+                                    console.log(currentItem)
+                            }
+                            }
+                        ])
+                    }}>
+                        <Text>Add to Cart</Text>
+                    </Pressable>
+                </View>
 
                 <View style={styles.listSeparator}/>
 
                 
-                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Combo B</Text>
                     <Text>Chow Mein, Orange Chicken, and veggies</Text>
                     <Text>$11.99</Text>
-                </Pressable>
+                    <Pressable style={styles.orderButtonContainer}>
+                        <Text>Add to Cart</Text>
+                    </Pressable>
+                </View>
 
                 <View style={styles.listSeparator}/>
 
-                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Chow Mein</Text>
                     <Text>$4.99</Text>
-                </Pressable>
+                    <Pressable style={styles.orderButtonContainer}>
+                        <Text>Add to Cart</Text>
+                    </Pressable>
+                </View>
 
                 <View style={{borderBottomWidth:10, borderBottomColor:'#DCDCDC', marginBottom: 20}}/>
 
                 <Text style={styles.subHeader}>Soft Drinks</Text>
 
-                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Horchata</Text>
                     <Text>$3.99</Text>
-                </Pressable>
+                    <Pressable style={styles.orderButtonContainer}>
+                        <Text>Add to Cart</Text>
+                    </Pressable>
+                </View>
 
                 <View style={styles.listSeparator}/>
 
-                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Coca Cola</Text>
                     <Text>$2.99</Text>
-                </Pressable>
+                    <Pressable style={styles.orderButtonContainer}>
+                        <Text>Add to Cart</Text>
+                    </Pressable>
+                </View>
 
                 <View style={styles.listSeparator}/>
 
-                <Pressable style={styles.menuButtons} onPress={() => {}}>
+                <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Bottled Water</Text>
                     <Text>$1.99</Text>
-                </Pressable>
+                    <Pressable style={styles.orderButtonContainer}>
+                        <Text>Add to Cart</Text>
+                    </Pressable>
+                </View>
 
                 <View style={styles.listSeparator}/>
 
@@ -118,6 +162,15 @@ const styles = StyleSheet.create({
         flex:1,
         resizeMode:'cover'
     },
+    orderButtonContainer:{
+        height:20,
+        width:100,
+        backgroundColor:'lightgrey',
+        borderRadius:10,
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:5
+    },
     headerTitle: {
         fontWeight:'bold',
         marginHorizontal: 20,
@@ -142,7 +195,8 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:25,
         marginBottom: 10
-    }
+    },
+    
 
 
 });

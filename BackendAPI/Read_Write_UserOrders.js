@@ -4,7 +4,7 @@ import { collection, getDocs, addDoc, Timestamp, query, where, orderBy, getDoc, 
 
 const currentUser = auth.currentUser;
 
-/** @returns {Array of Documents} - Get all orders for current user filtered by uid */
+/** @returns {Promise<Array of Documents>} - Get all orders for current user filtered by uid */
 async function getOrders(){
     const orders = [];
 
@@ -25,7 +25,7 @@ async function getOrders(){
  * @returns {void} - return nothing, saves order to database
  */
 
-async function saveOrder(orders, restaurant, total_price){
+async function saveOrder(orders, restaurant, total_price, deliveryID, orderCompletion){
 
 try {
   const docRef = await addDoc(collection(db, "User Orders"), {
@@ -33,7 +33,9 @@ try {
     Orders: orders,
     Restaurant: restaurant,
     Total_Price: total_price,
-    uid: "User ID"    //replace with currentUser.uid once auth set up
+    uid: auth.currentUser.uid,   //replace with currentUser.uid once auth set up
+    deliveryID: deliveryID,
+    orderCompleted: orderCompletion
   });
 
   console.log("Document written with ID: ", docRef.id);
@@ -43,6 +45,7 @@ try {
 };
 
 };
+
 
 async function saveUser(name, address, postal_code, phone, city, country, state, uid){
 
@@ -75,5 +78,11 @@ async function getUser(){
   else {console.log('No such document.'); }
 
 };
+
+
   
 export {getOrders, saveOrder, saveUser, getUser };
+
+
+// Create new order on purchase button
+// User orders saves auth.currentuser.uid and order id from DD

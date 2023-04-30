@@ -34,7 +34,7 @@ const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
                     />
 
                     <Text style={styles.orderDetailsFont}>
-                         {OrderItems.length} items 
+                         {OrderItems.length} items
                     </Text>
 
                 </View>
