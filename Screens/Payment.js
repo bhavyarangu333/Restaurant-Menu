@@ -13,6 +13,8 @@ const Payment = () => {
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const [loading, setLoading] = useState(false);
 
+    const PUBLISHABLE_KEY = 'pk_test_51MwZH3AmdXqnDkBiZ9qNGFWUQSY7TttOb7f6ro3nl0sX64NX1G1OKWkZsXxn9yHCss32ENmKOFVMasc7VKLMPyEn00hZpFZdrA'
+
     const fetchPaymentSheetParams = async () => {
         const response = await fetch(`${API_URL}/payment-sheet`, {
         method: 'POST',
@@ -109,7 +111,7 @@ const Payment = () => {
 
 
     return (
-        <StripeProvider publishableKey='pk_test_51MwZH3AmdXqnDkBiZ9qNGFWUQSY7TttOb7f6ro3nl0sX64NX1G1OKWkZsXxn9yHCss32ENmKOFVMasc7VKLMPyEn00hZpFZdrA'>
+        <StripeProvider publishableKey={PUBLISHABLE_KEY}>
             <SafeAreaView style={styles.container}>
 
             {/* <TextInput

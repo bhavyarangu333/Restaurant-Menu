@@ -1,9 +1,11 @@
-import {} from 'react';
+import { useEffect } from 'react';
 import {SafeAreaView, Text, Pressable, View, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../firebase';
 
 
 const OrderCart = (props) => {
+    const API_URL = 'https://restaurante-api.vercel.app'
     const navigation = useNavigation();
     
     navigation.setOptions({
@@ -23,7 +25,7 @@ const OrderCart = (props) => {
             {
                 props.route.params.orders.map((order) => {
                     return (
-                        <View style={{marginTop: 10, marginHorizontal: 10, flexDirection:'row', justifyContent:'space-between', borderBottomWidth:StyleSheet.hairlineWidth, borderBottomColor:'#CED0CE'}}>
+                        <View style={styles.menuRows}>
                             <Text style={styles.menuText}>{order.item}</Text>
                             <Text style={styles.menuText}>{order.price}</Text>
                         </View>
@@ -32,6 +34,52 @@ const OrderCart = (props) => {
             }
         </View>
     }
+    const fetchPaymentIntentClientSecret = async () => {
+        const response = await fetch(`${API_URL}/create-payment-intent`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const { clientSecret, error } = await response.json();
+        return { clientSecret, error };
+      };
+    
+
+    const handleSave = async () => {
+        // if (!cardDetails?.complete || !email) {
+        //     alert("Please enter Complete card details and Email");
+        //     return;
+        //   }
+          const billingDetails = {
+            email: auth.currentUser.email
+          };
+          //2.Fetch the intent client secret from the backend
+          try {
+            const { clientSecret, error } = await fetchPaymentIntentClientSecret();
+            //2. confirm the payment
+            if (error) {
+              console.log("Unable to process payment");
+            } else {
+              const { paymentIntent, error } = await confirmPayment(clientSecret, {
+                paymentMethodType: "Card",
+                billingDetails: billingDetails,
+              });
+              if (error) {
+                alert(`Payment Confirmation Error ${error.message}`);
+              } else if (paymentIntent) {
+                alert("Payment Successful");
+                console.log("Payment successful ", paymentIntent);
+              }
+            }
+          } catch (e) {
+            console.log(e);
+          }
+    };
+
+    useEffect(() => {
+        
+    },[])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -74,6 +122,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 30,
         alignSelf: 'center'
+    },
+    menuRows: {
+        marginTop: 10,
+        marginHorizontal: 10,
+        flexDirection:'row',
+        justifyContent:'space-between',
+        borderBottomWidth:StyleSheet.hairlineWidth,
+        borderBottomColor:'#CED0CE'
     }
 
 

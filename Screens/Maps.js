@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
-import { getNearbyRegion } from '../BackendAPI/Geocode';
+import { getNearbyRegion, fetchMapsKey } from '../BackendAPI/Geocode';
 import MapViewDirections from 'react-native-maps-directions'
 
 
@@ -28,6 +28,12 @@ const Maps = () => {
 
     const origin = { latitude: 33.879799, longitude: -117.885231};
     const destination = { latitude: 33.8120918, longitude: -117.9189742};
+    const [googleMapsKey, setGoogleMapsKey] = useState('');
+
+    useEffect(() =>{
+        fetchMapsKey()
+            .then((res) => setGoogleMapsKey(res.result));
+    },[])
 
     return (
         <View style={styles.container}>
@@ -51,7 +57,7 @@ const Maps = () => {
                 <MapViewDirections
                     origin={origin}
                     destination={destination}
-                    apikey={'AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A'}
+                    apikey={googleMapsKey}
                 />
 
             
