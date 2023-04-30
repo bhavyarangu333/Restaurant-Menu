@@ -7,7 +7,7 @@ import MapViewDirections from 'react-native-maps-directions'
 
 
 
-const Maps = () => {
+const DeliveryScreen = () => {
 
     // const [longitude, setLongitude] = useState(0);
     // const [latitude, setLatitude] = useState(0);
@@ -36,15 +36,15 @@ const Maps = () => {
 
                 <Marker
                     coordinate={{
-                        latitude: 33.879799,
-                        longitude: -117.885231,
+                        latitude: latitude,
+                        longitude: longitude,
                     }}
                 />
 
                 <Marker
                     coordinate={{
-                        latitude: 33.8120918,
-                        longitude: -117.9189742,
+                        latitude: latitude,
+                        longitude: longitude,
                     }}
                 />
 
@@ -54,10 +54,7 @@ const Maps = () => {
                     apikey={'AIzaSyBw3frPN_CVAPu-n-NfK_oSohk26_XgU0A'}
                 />
 
-            
             </MapView>
-            
-               
         </View>
     );
 };
@@ -72,4 +69,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Maps;
+export default DeliveryScreen;
