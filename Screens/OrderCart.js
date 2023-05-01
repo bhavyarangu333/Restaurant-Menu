@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import {SafeAreaView, Text, Pressable, View, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const OrderCart = (props) => {
@@ -83,7 +84,9 @@ const OrderCart = (props) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {child}
+            <ScrollView contentContainerStyle={{flexGrow:1}}>
+                {child}
+            </ScrollView>
             <Pressable style={styles.checkoutButton}>
                 <Text style={{color:'white'}}>Checkout</Text>
             </Pressable>

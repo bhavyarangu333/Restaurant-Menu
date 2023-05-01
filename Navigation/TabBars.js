@@ -27,7 +27,7 @@ function Tabs(){
                 return <Ionicons name={iconName} size={20} color={color}/>
             }
         })}> 
-            {/* <Tab.Screen name = "RestaurantsNav" component={RestaurantNavigator} options={{tabBarLabel:'Restaurants'}}/> */}
+            <Tab.Screen name = "RestaurantsNav" component={RestaurantNavigator} options={{tabBarLabel:'Restaurants'}}/>
             <Tab.Screen name = "Map" component={Maps}/>
             <Tab.Screen name = "Order History" component={OrderHistory} options={{headerShown:true}}/>
             <Tab.Screen name = "Settings" component={AccountNavigation}/>

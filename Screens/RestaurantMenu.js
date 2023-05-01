@@ -16,6 +16,7 @@ const RestaurantMenu = (props) => {
       });
     
     useEffect(() => {
+
         setCurrentItem([{item: 'Combo B', price: '$10.11'}])
 
     },[]);
