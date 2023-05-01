@@ -4,6 +4,8 @@ import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import { getNearbyRegion, fetchMapsKey } from '../BackendAPI/Geocode';
 import MapViewDirections from 'react-native-maps-directions'
+import { useFocusEffect } from '@react-navigation/native';
+import { googleKey } from '../App';
 
 
 
@@ -28,13 +30,7 @@ const Maps = () => {
 
     const origin = { latitude: 33.879799, longitude: -117.885231};
     const destination = { latitude: 33.8120918, longitude: -117.9189742};
-    const [googleMapsKey, setGoogleMapsKey] = useState('');
-
-    useEffect(() =>{
-        fetchMapsKey()
-            .then((res) => setGoogleMapsKey(res.result));
-    },[])
-
+    
     return (
         <View style={styles.container}>
             <MapView style={styles.map}
@@ -57,7 +53,8 @@ const Maps = () => {
                 <MapViewDirections
                     origin={origin}
                     destination={destination}
-                    apikey={googleMapsKey}
+                    strokeWidth={3}
+                    apikey={googleKey}
                 />
 
             
