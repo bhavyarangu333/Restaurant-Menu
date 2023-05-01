@@ -87,7 +87,7 @@ const OrderCart = (props) => {
             <ScrollView contentContainerStyle={{flexGrow:1}}>
                 {child}
             </ScrollView>
-            <Pressable style={styles.checkoutButton}>
+            <Pressable onPress={() => {navigation.navigate('Delivery', { orders:props.route.params.orders, location: props.route.params.location, name: props.route.params.name})}} style={styles.checkoutButton}>
                 <Text style={{color:'white'}}>Checkout</Text>
             </Pressable>
         </SafeAreaView>

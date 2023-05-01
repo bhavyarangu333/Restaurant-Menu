@@ -71,21 +71,40 @@ const Maps = () => {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello World!</Text>
+
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{fontWeight:'bold'}}>Merchant Name</Text>
+                        </View>
+                        <View style={{flexDirection:'row'}}>
+                            <Text>Pick Up:</Text>
+                            <Text>Adress</Text>
+                        </View>
+                        <View style={{flexDirection:'row'}}>
+                            <Text>Drop off:</Text>
+                            <Text>Drop off address</Text>
+                        </View>
+                        <View style={{flexDirection:'row'}}>
+                            <Text>Pick Up Time:</Text>
+                            <Text>Pick Up time</Text>
+                        </View>
+                        <View style={{flexDirection:'row', marginBottom:20}}>
+                            <Text>Delivery Time:</Text>
+                            <Text>Delivery time</Text>
+                        </View>
+
                         <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={styles.textStyle}>Hide Modal</Text>
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => setModalVisible(!modalVisible)}>
+                            <Text style={{color:'white'}}>Close</Text>
                         </Pressable>
                     </View>
                 </View>
             </Modal>
 
             <Pressable onPress={() => setModalVisible(true)} style={{height:50, width: '60%', backgroundColor: '#894AFF', position:'absolute', justifyContent:'center', alignItems:'center', alignSelf:'center', bottom:0, marginBottom: 10, borderWidth: 1, borderRadius: 8 }}>
-                    <Text style={{color:'white'}}>View Order Details</Text>
+                <Text style={{color:'white'}}>View Order Details</Text>
             </Pressable>
             
-               
         </View>
     );
 };
@@ -105,6 +124,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         elevation: 2,
+        width: '50%',
+        alignItems:'center',
+        justifyContent:'center'
     },
 
     centeredView: {
@@ -114,7 +136,7 @@ const styles = StyleSheet.create({
     },
     
     buttonClose: {
-        backgroundColor: '#2196F3',
+        backgroundColor: '#894AFF',
     },
 
     modalText: {

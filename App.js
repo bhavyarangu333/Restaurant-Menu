@@ -10,6 +10,7 @@ import { fetchMapsKey } from './BackendAPI/Geocode';
 
 let googleKey = ''
 export default function App() {
+  
   const [googleMapsKey, setGoogleMapKey] = useState('')
   useEffect(() => {
     fetchMapsKey()
@@ -18,7 +19,6 @@ export default function App() {
 
   useEffect(()=>{
     googleKey = googleMapsKey;
-    console.log(googleKey)
   },[googleMapsKey])
 
   return (
