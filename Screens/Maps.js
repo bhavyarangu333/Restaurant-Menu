@@ -6,6 +6,8 @@ import { getNearbyRegion, fetchMapsKey } from '../BackendAPI/Geocode';
 import MapViewDirections from 'react-native-maps-directions'
 import { useFocusEffect } from '@react-navigation/native';
 import { googleKey } from '../App';
+import { StripeProvider, CardField, useConfirmPayment, useStripe, Card } from '@stripe/stripe-react-native';
+import User from '../Models/User';
 
 
 
@@ -27,17 +29,19 @@ const Maps = () => {
     //         longitudeDelta: .009
     //     };
     // };
-
     const origin = { latitude: 33.879799, longitude: -117.885231};
     const destination = { latitude: 33.8120918, longitude: -117.9189742};
-    const [modalVisible, setModalVisible] = useState(false);
+   
+    useEffect(()=>{
+        
+      },[])
+
 
     return (
         <View style={styles.container}>
 
             <MapView style={styles.map}
-               region={{latitude:33.879799, longitude: -117.885231, latitudeDelta: .009,longitudeDelta: .009}}
-               onPress={() => {setModalVisible(true)}}>
+               region={{latitude:33.879799, longitude: -117.885231, latitudeDelta: .009,longitudeDelta: .009}}>
 
                 <Marker
                     coordinate={{
@@ -61,7 +65,7 @@ const Maps = () => {
 
             </MapView>
 
-            <Modal
+            {/* <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
@@ -99,13 +103,14 @@ const Maps = () => {
                         </Pressable>
                     </View>
                 </View>
-            </Modal>
+            </Modal> */}
 
-            <Pressable onPress={() => setModalVisible(true)} style={{height:50, width: '60%', backgroundColor: '#894AFF', position:'absolute', justifyContent:'center', alignItems:'center', alignSelf:'center', bottom:0, marginBottom: 10, borderWidth: 1, borderRadius: 8 }}>
+            {/* <Pressable disabled={!loading} onPress={() => openPaymentSheet()} style={{height:50, width: '60%', backgroundColor: '#894AFF', position:'absolute', justifyContent:'center', alignItems:'center', alignSelf:'center', bottom:0, marginBottom: 10, borderWidth: 1, borderRadius: 8 }}>
                 <Text style={{color:'white'}}>View Order Details</Text>
-            </Pressable>
+            </Pressable> */}
             
         </View>
+
     );
 };
 

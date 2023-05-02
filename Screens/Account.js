@@ -47,8 +47,8 @@ const Account = () => {
         // .then((res) => {console.log(res)});
         // fetchPhotos()
         // .then(res => console.log(res.result)) 
-        makeDelivery()
-            .then((res) => {console.log(res)})
+        // makeDelivery()
+        //     .then((res) => {console.log(res)})
     }, []);
 
     return (

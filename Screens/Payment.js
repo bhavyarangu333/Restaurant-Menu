@@ -1,15 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import { StripeProvider, CardField, useConfirmPayment, useStripe } from '@stripe/stripe-react-native';
+import User from '../Models/User';
 
 
 const API_URL = 'https://restaurante-api.vercel.app';
 
 const Payment = () => {
-    const [email, setEmail] = useState();
-    const [cardDetails, setCardDetails] = useState();
-    const { confirmPayment, loadingPayment } = useConfirmPayment();
-
+   
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const [loading, setLoading] = useState(false);
 
@@ -23,7 +21,7 @@ const Payment = () => {
         },
         });
         const { setupIntent, ephemeralKey, customer } = await response.json();
-
+        User.stripeCustomerID = customer;
         return {
         setupIntent,
         ephemeralKey,
@@ -57,6 +55,7 @@ const Payment = () => {
             alert(`Error code: ${error.code}`, error.message);
         } else {
             alert('Payment Saved Successfully', 'Your payment method is successfully set up for future payments!');
+            console.log(User.stripeCustomerID);
         }
     };
 
@@ -64,82 +63,15 @@ const Payment = () => {
         initializePaymentSheet();
     }, []);
 
-    
-
-    // const fetchPaymentIntentClientSecret = async () => {
-    //     const response = await fetch(`${API_URL}/create-payment-intent`, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     });
-    //     const { clientSecret, error } = await response.json();
-    //     return { clientSecret, error };
-    //   };
-    
-
-    // const handleSave = async () => {
-    //     if (!cardDetails?.complete || !email) {
-    //         alert("Please enter Complete card details and Email");
-    //         return;
-    //       }
-    //       const billingDetails = {
-    //         email: email,
-    //       };
-    //       //2.Fetch the intent client secret from the backend
-    //       try {
-    //         const { clientSecret, error } = await fetchPaymentIntentClientSecret();
-    //         //2. confirm the payment
-    //         if (error) {
-    //           console.log("Unable to process payment");
-    //         } else {
-    //           const { paymentIntent, error } = await confirmPayment(clientSecret, {
-    //             paymentMethodType: "Card",
-    //             billingDetails: billingDetails,
-    //           });
-    //           if (error) {
-    //             alert(`Payment Confirmation Error ${error.message}`);
-    //           } else if (paymentIntent) {
-    //             alert("Payment Successful");
-    //             console.log("Payment successful ", paymentIntent);
-    //           }
-    //         }
-    //       } catch (e) {
-    //         console.log(e);
-    //       }
-    // };
-
 
     return (
         <StripeProvider publishableKey={PUBLISHABLE_KEY}>
             <SafeAreaView style={styles.container}>
 
-            {/* <TextInput
-                autoCapitalize="none"
-                placeholder="E-mail"
-                keyboardType="email-address"
-                onChange={value => setEmail(value.nativeEvent.text)}
-                style={styles.input}
-            /> */}
-            {/* <CardField
-                placeholders={{
-                    number: "4242 4242 4242 4242"
-                }}
-                postalCodeEnabled={false}
-                cardStyle={styles.card}
-                style={styles.cardContainer}
-                onCardChange={cardDetails => {
-                    setCardDetails(cardDetails);
-                }}
-            /> */}
-
-            {/* <Button onPress={handleSave} title='Save' disabled={loadingPayment}/> */}
-            
             <Pressable disabled={!loading} onPress={() => openPaymentSheet()} style={{justifyContent: 'center', alignItems:'center', margin: 10, backgroundColor:'#894AFF', height:40, borderRadius:8}}>
                 <Text style={{color:'white'}}>Set Up Payment</Text>
             </Pressable>
 
-            
             </SafeAreaView>
         </StripeProvider>
     )
