@@ -27,7 +27,14 @@ const fetchPhotos = async (photoRef) => {
 
 };
 
+const fetchMapsKey = async () => {
+    const key = await fetch(`${API_URL}/mapsKey`);
+    const keyData = await key.json();
+
+    return keyData;
+}
 
 
 
-export { getNearbyRegion, fetchRestaurants, fetchPhotos };
+
+export { getNearbyRegion, fetchRestaurants, fetchPhotos, fetchMapsKey };

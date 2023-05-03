@@ -39,8 +39,9 @@ const Restaurants = () => {
 
         return(
             <View style={styles.container}>
+                
                 <Pressable style = {styles.buttonContainer} onPress={() => navigate.navigate('RestaurantMenu', {restaurantName: restaurantData.name, menuPhoto: photoURI, rating: restaurantData.rating, open:restaurantData.opening_hours.open_now, location:restaurantData.vicinity })}>
-                            <Image source={{uri: photoURI}} style={{flex:1, resizeMode:'cover'}}/>
+                            <Image source={{uri: photoURI}} style={{flex:1, resizeMode:'cover', borderRadius:5}}/>
                             <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                                 <Text style={{fontWeight:'bold', width:'60%'}} numberOfLines={1}>{restaurantData.name}</Text>
                                 <View style={{flexDirection:'row'}}>
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
         color: '#894AFF',
         marginTop: 10,
         marginHorizontal: 10,
+        marginBottom: 10
     },
 
     listSeparator: {

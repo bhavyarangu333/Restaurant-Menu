@@ -5,8 +5,22 @@ import { getOrders } from './BackendAPI/Read_Write_UserOrders';
 import Tabs from './Navigation/TabBars';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './Navigation/AuthNavigator';
+import { useEffect, useState } from 'react';
+import { fetchMapsKey } from './BackendAPI/Geocode';
 
+let googleKey = ''
 export default function App() {
+  
+  const [googleMapsKey, setGoogleMapKey] = useState('')
+  useEffect(() => {
+    fetchMapsKey()
+      .then((res => {setGoogleMapKey(res.result);}))
+  },[])
+
+  useEffect(()=>{
+    googleKey = googleMapsKey;
+  },[googleMapsKey])
+
   return (
 
     <NavigationContainer> 
@@ -23,3 +37,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export {googleKey};

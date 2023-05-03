@@ -10,9 +10,8 @@ const AccountNavigator = () => {
         <Stack.Navigator screenOptions={{headerShown:true, headerBackTitleVisible:false}} initialRouteName='Account'>
             <Stack.Screen name='Account' component={Account} options={{headerLeft:null}}/>     
             <Stack.Screen name='Manage Payment' component={Payment}/>
-
         </Stack.Navigator>
-    )
+    );
 };
 
 

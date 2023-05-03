@@ -47,8 +47,8 @@ const Account = () => {
         // .then((res) => {console.log(res)});
         // fetchPhotos()
         // .then(res => console.log(res.result)) 
-        makeDelivery()
-            .then((res) => {console.log(res)})
+        // makeDelivery()
+        //     .then((res) => {console.log(res)})
     }, []);
 
     return (
@@ -90,7 +90,6 @@ const Account = () => {
                 allowedCountries={['US', 'CA', 'GB']}
                 primaryButtonTitle={'Save'}
                 sheetTitle={'Manage Account'}
-                
             />
 
             <Pressable style={styles.pressableContainer} onPress={() => navigation.navigate('Manage Payment')}> 

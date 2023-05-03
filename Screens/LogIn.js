@@ -34,16 +34,16 @@ const Login = () => {
                 />
 
                 <Pressable onPress={() => {
-                    // signInWithEmailAndPassword(auth, email, password)
-                    //     .then((userCredential) => {
-                    //     // Signed in 
-                    //         navigation.navigate('Home');
-                    //     })
-                    //     .catch((error) => {
-                    //         console.log(error.message);
-                    //         alert("Invalid Credentials");
-                    //     });
-                    navigation.navigate('Home')
+                    signInWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                        // Signed in 
+                            navigation.navigate('Home');
+                        })
+                        .catch((error) => {
+                            console.log(error.message);
+                            alert("Invalid Credentials");
+                        });
+                    // navigation.navigate('Home')
                   
                 }} style={styles.button}>
                     <Text style={{color:'white'}}>Log In</Text>

@@ -1,14 +1,10 @@
-import { useState } from 'react';
 import { View, SafeAreaView, Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 
 
 const OnboardingScreen = () => {
     
     const navigation = useNavigation();
-    const [adressSheet, setAddressSheet] = useState(false);
-
  
     return(
         <SafeAreaView style={styles.container}>
