@@ -90,7 +90,6 @@ const Account = () => {
                 allowedCountries={['US', 'CA', 'GB']}
                 primaryButtonTitle={'Save'}
                 sheetTitle={'Manage Account'}
-                
             />
 
             <Pressable style={styles.pressableContainer} onPress={() => navigation.navigate('Manage Payment')}> 

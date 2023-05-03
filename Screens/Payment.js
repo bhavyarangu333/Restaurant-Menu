@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
-import { StripeProvider, CardField, useConfirmPayment, useStripe } from '@stripe/stripe-react-native';
+import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import User from '../Models/User';
 
 
@@ -66,13 +66,13 @@ const Payment = () => {
 
     return (
         <StripeProvider publishableKey={PUBLISHABLE_KEY}>
+
             <SafeAreaView style={styles.container}>
-
-            <Pressable disabled={!loading} onPress={() => openPaymentSheet()} style={{justifyContent: 'center', alignItems:'center', margin: 10, backgroundColor:'#894AFF', height:40, borderRadius:8}}>
-                <Text style={{color:'white'}}>Set Up Payment</Text>
-            </Pressable>
-
+                <Pressable disabled={!loading} onPress={() => openPaymentSheet()} style={{justifyContent: 'center', alignItems:'center', margin: 10, backgroundColor:'#894AFF', height:40, borderRadius:8}}>
+                    <Text style={{color:'white'}}>Set Up Payment</Text>
+                </Pressable>
             </SafeAreaView>
+            
         </StripeProvider>
     )
 }

@@ -27,10 +27,11 @@ const NewAuth = () => {
             />
 
             <TextInput placeholder='Password'
-                style={styles.input} 
-                autoCapitalize='none' 
+                style={styles.input}
+                autoCapitalize='none'
                 autoCorrect={false}
                 keyboardType='email-address'
+                secureTextEntry={true}
                 onChangeText={text => setPassword(text)}   
             />
 
@@ -39,6 +40,7 @@ const NewAuth = () => {
                 autoCapitalize='none' 
                 autoCorrect={false}
                 keyboardType='email-address'
+                secureTextEntry={true}
                 onChangeText={text => setConfirmPassword(text)}   
             />
 
@@ -95,10 +97,7 @@ const NewAuth = () => {
                             background: '#800080'
                         },
                     }
-                }}
-                
-            />
-
+                }}/>
 
         </SafeAreaView>
     );
@@ -134,9 +133,6 @@ const styles = StyleSheet.create({
             marginBottom: 30
     
         },
-
-
-
 });
 
 export default NewAuth;

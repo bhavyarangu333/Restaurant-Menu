@@ -39,6 +39,7 @@ const Restaurants = () => {
 
         return(
             <View style={styles.container}>
+                
                 <Pressable style = {styles.buttonContainer} onPress={() => navigate.navigate('RestaurantMenu', {restaurantName: restaurantData.name, menuPhoto: photoURI, rating: restaurantData.rating, open:restaurantData.opening_hours.open_now, location:restaurantData.vicinity })}>
                             <Image source={{uri: photoURI}} style={{flex:1, resizeMode:'cover', borderRadius:5}}/>
                             <View style={{flexDirection:'row', justifyContent:'space-between'}}>

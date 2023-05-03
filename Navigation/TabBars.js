@@ -3,13 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import OrderHistory from '../Screens/OrderHistory';
 import AccountNavigation from './AccountNavigation';
-import Restaurants from '../Screens/Restaurants';
 import Maps from '../Screens/Maps';
 import RestaurantNavigator from './RestaurantNavigation';
 
 
 const Tab = createBottomTabNavigator();
-
 
 function Tabs(){
 
@@ -28,11 +26,9 @@ function Tabs(){
             }
         })}> 
             <Tab.Screen name = "RestaurantsNav" component={RestaurantNavigator} options={{tabBarLabel:'Restaurants'}}/>
-            <Tab.Screen name = "Settings" component={AccountNavigation}/>
             <Tab.Screen name = "Map" component={Maps}/>
             <Tab.Screen name = "Order History" component={OrderHistory} options={{headerShown:true}}/>
-            {/* <Tab.Screen name = "Settings" component={AccountNavigation}/> */}
-
+            <Tab.Screen name = "Settings" component={AccountNavigation}/>
 
         </Tab.Navigator> 
     )

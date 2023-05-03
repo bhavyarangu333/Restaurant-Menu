@@ -45,7 +45,7 @@ const OrderCart = (props) => {
                         </View>
                     )
                 })
-            }
+            };
         </View>
     }
 
