@@ -1,19 +1,24 @@
-import { useEffect } from 'react';
-import {SafeAreaView, Text, Pressable, View, StyleSheet} from 'react-native';
+import { useEffect, useState, useContext } from 'react';
+import {SafeAreaView, Text, Pressable, View, StyleSheet, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
 import { ScrollView } from 'react-native-gesture-handler';
 import User from '../Models/User';
 import { StripeProvider, CardField, useConfirmPayment, useStripe, Card } from '@stripe/stripe-react-native';
+import { makeDelivery } from '../BackendAPI/DoordashJWT';
+import { deliveryTimeContext, pickupTimeContext } from './Contexts';
 
 
 
 const OrderCart = (props) => {
-    
-    const API_URL = 'https://restaurante-api.vercel.app'
+
+    const API_URL = 'https://restaurante-api.vercel.app';
     const navigation = useNavigation();
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const [loading, setLoading] = useState(false);
+    const { deliveryTime, setDeliveryTime } = useContext(deliveryTimeContext);
+    const { pickupTime, setPickupTime } = useContext(pickupTimeContext);
+
     const PUBLISHABLE_KEY = 'pk_test_51MwZH3AmdXqnDkBiZ9qNGFWUQSY7TttOb7f6ro3nl0sX64NX1G1OKWkZsXxn9yHCss32ENmKOFVMasc7VKLMPyEn00hZpFZdrA';
 
     let child;
@@ -89,13 +94,37 @@ const OrderCart = (props) => {
         if (error) {
           Alert.alert(`Error code: ${error.code}`, error.message);
         } else {
-        //   Alert.alert('Success', 'Your order is confirmed!');
-            navigation.navigate('Delivery', { orders:props.route.params.orders, location: props.route.params.location, name: props.route.params.name})
+
+            makeDelivery().
+                then((res) => {
+
+                    const pst_dropoff = new Date(res.dropoff_time_estimated).
+                    toLocaleString('en-US',{
+                        timeZone:'America/Los_Angeles'
+                    });
+
+                    const dropoff_time = pst_dropoff.substring(pst_dropoff.indexOf(' ') + 1);
+                    const dropoff_time_hour_min = dropoff_time.substring(0,5);
+                    const dropoff_am_pm = dropoff_time.substring(8,11);
+                     
+                    const pst_pickup = new Date(res.pickup_time_estimated).toLocaleString('en-US',{
+                        timeZone:'America/Los_Angeles'
+                    });
+
+                    const pickup_time = pst_pickup.substring(pst_pickup.indexOf(' ') + 1);
+                    const pickup_time_hour_min = pickup_time.substring(0,5);
+                    const pickup_am_pm = pickup_time.substring(8,11);
+                    
+                    setPickupTime(pickup_time_hour_min + pickup_am_pm);
+                    setDeliveryTime(dropoff_time_hour_min + dropoff_am_pm);
+                    navigation.navigate('Delivery', { orders:props.route.params.orders, location: props.route.params.location, name: props.route.params.name});
+                });
         }
       };
 
     useEffect(() => {
         initializePaymentSheet();
+
     },[])
 
     return (
@@ -111,7 +140,6 @@ const OrderCart = (props) => {
         </StripeProvider>
     )
 };
-
 
 
 const styles = StyleSheet.create({

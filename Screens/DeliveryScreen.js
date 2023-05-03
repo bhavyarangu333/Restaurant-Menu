@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useContext } from 'react';
 import { Pressable, StyleSheet, View, Text, Modal } from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps'
 import { getNearbyRegion } from '../BackendAPI/Geocode';
 import MapViewDirections from 'react-native-maps-directions';
 import { googleKey } from '../App';
+import User from '../Models/User';
+import { deliveryTimeContext, pickupTimeContext } from './Contexts';
 
 
 
@@ -31,11 +33,12 @@ const DeliveryScreen = (props) => {
     const origin = { latitude: 33.879799, longitude: -117.885231};
     const destination = { latitude: 33.8120918, longitude: -117.9189742};
     const [modalVisible, setModalVisible] = useState(false);
+    const { deliveryTime, setDeliveryTime } = useContext(deliveryTimeContext);
+    const { pickupTime, setPickupTime } = useContext(pickupTimeContext);
 
-    useState(() => {
-
-    },[]);
-
+    useEffect(() => {
+        console.log(props.route.params.pickUpTime);
+    },[])
 
     return (
         <View style={styles.container}>
@@ -87,11 +90,11 @@ const DeliveryScreen = (props) => {
                         </View>
                         <View style={{flexDirection:'row'}}>
                             <Text>Pick Up Time: </Text>
-                            <Text>Pick Up time</Text>
+                            <Text>{pickupTime}</Text>
                         </View>
                         <View style={{flexDirection:'row'}}>
                             <Text>Delivery Time: </Text>
-                            <Text>Delivery time</Text>
+                            <Text>{deliveryTime}</Text>
                         </View>
                         <View style={{flexDirection:'row', marginBottom:20}}>
                             <Text>Cost: </Text>
