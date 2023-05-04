@@ -27,6 +27,22 @@ const OrderCart = (props) => {
         headerTitle: 'Your Cart'
     });
 
+    const [totalPrice, setTotalPrice] = useState(0);
+    let price = 0.0;
+    useEffect(() => {
+
+        if (props.route.params.orders.length !== 0) {
+
+            props.route.params.orders.map((order) => {
+                let cash = order.price.substring(order.price.indexOf('$') + 1);
+                price += parseFloat(cash);
+            });
+
+            setTotalPrice(price);
+        };
+
+    },[])
+
     if (props.route.params.orders === undefined || props.route.params.orders.length === 0) {
         child = 
         <View style={{alignItems:'center', justifyContent:'center', marginTop: 20}}>
@@ -132,6 +148,11 @@ const OrderCart = (props) => {
             <SafeAreaView style={styles.container}>
                 <ScrollView contentContainerStyle={{flexGrow:1}}>
                     {child}
+                    <View style={styles.menuRows}>
+                        <Text style={{fontWeight:'bold'}}>Total:</Text>
+                        <Text style={{fontWeight:'bold'}}>${totalPrice}</Text>
+                    </View>
+                    
                 </ScrollView>
                 <Pressable style={styles.checkoutButton} onPress={() => {openPaymentSheet()}} disabled={!loading}>
                     <Text style={{color:'white'}}>Checkout</Text>

@@ -55,7 +55,7 @@ const NewAuth = () => {
             </Pressable>
 
             <AddressSheet
-                presentationStyle='fullscreen'
+                presentationStyle='popover'
                 onSubmit={async (addressDetails) => {
                     // handle result                
                     createUserWithEmailAndPassword(auth, email, password)

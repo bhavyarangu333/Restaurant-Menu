@@ -15,12 +15,12 @@ const RestaurantMenu = (props) => {
         )
       });
     
-    useEffect(() => {
+    // useEffect(() => {
 
-        setCurrentItem([{item: 'Combo B', price: '$10.11'}]);
+    //     setCurrentItem([{item: 'Combo B', price: '$10.11'}]);
         
 
-    },[]);
+    // },[]);
 
     let hours;
 
@@ -36,7 +36,7 @@ const RestaurantMenu = (props) => {
     };
 
     const [orders, setOrder] = useState([{}]);
-    const [currentItem, setCurrentItem] = useState([{}]);
+    const [currentItem, setCurrentItem] = useState([]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -76,7 +76,6 @@ const RestaurantMenu = (props) => {
                                 text: 'Add to Cart',
                                 onPress: () => {
                                     addToCart('Combo A', '$10.99')
-                                    console.log(currentItem)
                             }
                             }
                         ])
@@ -92,7 +91,21 @@ const RestaurantMenu = (props) => {
                     <Text style={styles.menuTitle}>Combo B</Text>
                     <Text>Chow Mein, Orange Chicken, and veggies</Text>
                     <Text>$11.99</Text>
-                    <Pressable style={styles.orderButtonContainer}>
+                    <Pressable style={styles.orderButtonContainer} onPress={() => {
+                        Alert.alert('Cart', 'Add to Cart?',[
+                            {
+                                text: 'Cancel',
+                                onPress: () => console.log("Cancelled pressed"),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Add to Cart',
+                                onPress: () => {
+                                    addToCart('Combo B', '$10.99')
+                            }
+                            }
+                        ])
+                    }}>
                         <Text>Add to Cart</Text>
                     </Pressable>
                 </View>
@@ -102,7 +115,21 @@ const RestaurantMenu = (props) => {
                 <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Chow Mein</Text>
                     <Text>$4.99</Text>
-                    <Pressable style={styles.orderButtonContainer}>
+                    <Pressable style={styles.orderButtonContainer} onPress={() => {
+                        Alert.alert('Cart', 'Add to Cart?',[
+                            {
+                                text: 'Cancel',
+                                onPress: () => console.log("Cancelled pressed"),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Add to Cart',
+                                onPress: () => {
+                                    addToCart('Chow Mein', '$4.99')
+                            }
+                            }
+                        ])
+                    }}>
                         <Text>Add to Cart</Text>
                     </Pressable>
                 </View>
@@ -114,7 +141,22 @@ const RestaurantMenu = (props) => {
                 <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Horchata</Text>
                     <Text>$3.99</Text>
-                    <Pressable style={styles.orderButtonContainer}>
+                    <Pressable style={styles.orderButtonContainer} onPress={() => {
+                        Alert.alert('Cart', 'Add to Cart?',[
+                            {
+                                text: 'Cancel',
+                                onPress: () => console.log("Cancelled pressed"),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Add to Cart',
+                                onPress: () => {
+                                    addToCart('Horchata', '$3.99')
+                                    console.log(currentItem)
+                            }
+                            }
+                        ])
+                    }}>
                         <Text>Add to Cart</Text>
                     </Pressable>
                 </View>
@@ -124,7 +166,22 @@ const RestaurantMenu = (props) => {
                 <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Coca Cola</Text>
                     <Text>$2.99</Text>
-                    <Pressable style={styles.orderButtonContainer}>
+                    <Pressable style={styles.orderButtonContainer} onPress={() => {
+                        Alert.alert('Cart', 'Add to Cart?',[
+                            {
+                                text: 'Cancel',
+                                onPress: () => console.log("Cancelled pressed"),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Add to Cart',
+                                onPress: () => {
+                                    addToCart('Coca Cola', '$10.99')
+                                    console.log(currentItem)
+                            }
+                            }
+                        ])
+                    }}>
                         <Text>Add to Cart</Text>
                     </Pressable>
                 </View>
@@ -134,7 +191,22 @@ const RestaurantMenu = (props) => {
                 <View style={styles.menuButtons}>
                     <Text style={styles.menuTitle}>Bottled Water</Text>
                     <Text>$1.99</Text>
-                    <Pressable style={styles.orderButtonContainer}>
+                    <Pressable style={styles.orderButtonContainer} onPress={() => {
+                        Alert.alert('Cart', 'Add to Cart?',[
+                            {
+                                text: 'Cancel',
+                                onPress: () => console.log("Cancelled pressed"),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Add to Cart',
+                                onPress: () => {
+                                    addToCart('Bottled Water', '$10.99')
+                                    console.log(currentItem)
+                            }
+                            }
+                        ])
+                    }}>
                         <Text>Add to Cart</Text>
                     </Pressable>
                 </View>

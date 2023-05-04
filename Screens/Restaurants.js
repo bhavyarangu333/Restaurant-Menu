@@ -9,7 +9,6 @@ const Restaurants = () => {
     
     
     const [chineseRestaurants, setChineseRestaurants] = useState([]);
-    const [indianRestaurants, setIndianRestaurants] = useState([]);
     const [mexicanRestaurants, setMexicanRestaurants] = useState([]);
     const [fastfoodRestaurants, setFastfoodRestaurants] = useState([]);
 
@@ -18,11 +17,12 @@ const Restaurants = () => {
        
         fetchRestaurants()
         .then((res) => {
-            setChineseRestaurants(res.result[0].chinese_food.results);
-            setIndianRestaurants(res.result[0].indian_food.results);
-            setMexicanRestaurants(res.result[0].mexican_food.results);
-            setFastfoodRestaurants(res.result[0].fast_food.results);
+            setChineseRestaurants(res.chinese_food.results);
+            setMexicanRestaurants(res.mexican_food.results);
+            setFastfoodRestaurants(res.fast_food.results);
         });
+
+        
 
     }, [])
 
@@ -36,6 +36,7 @@ const Restaurants = () => {
             fetchPhotos(photoRef)
                 .then((res) => {
                     setPhotoURI(res.result)
+
                 })
         }, [])
 
@@ -88,13 +89,6 @@ const Restaurants = () => {
                 
                 <View style={styles.listSeparator}/>
 
-                <Text style={styles.subHeaders}>Indian</Text>
-                <FlatList
-                    horizontal = {true}
-                    showsHorizontalScrollIndicator = {false}
-                    data={indianRestaurants}
-                    renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
-                />
                 
                 <View style={styles.listSeparator}/>
 

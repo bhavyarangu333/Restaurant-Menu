@@ -13,7 +13,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 const Maps = () => {
 
     const [chineseRestaurants, setChineseRestaurants] = useState([]);
-    const [indianRestaurants, setIndianRestaurants] = useState([]);
+    // const [indianRestaurants, setIndianRestaurants] = useState([]);
     const [mexicanRestaurants, setMexicanRestaurants] = useState([]);
     const [fastfoodRestaurants, setFastfoodRestaurants] = useState([]);
     
@@ -22,10 +22,10 @@ const Maps = () => {
 
         fetchRestaurants()
         .then((res) => {
-            setChineseRestaurants(res.result[0].chinese_food.results);
-            setIndianRestaurants(res.result[0].indian_food.results);
-            setMexicanRestaurants(res.result[0].mexican_food.results);
-            setFastfoodRestaurants(res.result[0].fast_food.results);
+            setChineseRestaurants(res.chinese_food.results);
+            // setIndianRestaurants(res.result[0].indian_food.results);
+            setMexicanRestaurants(res.mexican_food.results);
+            setFastfoodRestaurants(res.fast_food.results);
         });
         
     },[])
@@ -65,7 +65,7 @@ const Maps = () => {
                     })
                 }
 
-                {
+                {/* {
                     indianRestaurants.map((res) => {
                         return (
                             <Marker coordinate={{latitude: res.geometry.location.lat, longitude: res.geometry.location.lng}}>
@@ -82,7 +82,7 @@ const Maps = () => {
                             </Marker>
                         )
                     })
-                }
+                } */}
 
                 {
                     mexicanRestaurants.map((res) => {
