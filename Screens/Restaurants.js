@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { SafeAreaView, Text, Pressable, View, StyleSheet, ScrollView, FlatList, Image } from 'react-native';
 import { fetchPhotos, fetchRestaurants } from '../BackendAPI/Geocode';
 import { useNavigation } from '@react-navigation/native';
@@ -7,20 +7,22 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Restaurants = () => {
     
-    const [indianFood, setIndianFood] = useState([]);
-    const [chineseFood, setChineseFood] = useState([]);
-    const [mexicanFood, setMexicanFood] = useState([]);
-    const [fastfoodFood, setFastfoodFood] = useState([]);
+    
+    const [chineseRestaurants, setChineseRestaurants] = useState([]);
+    const [indianRestaurants, setIndianRestaurants] = useState([]);
+    const [mexicanRestaurants, setMexicanRestaurants] = useState([]);
+    const [fastfoodRestaurants, setFastfoodRestaurants] = useState([]);
+
 
     useEffect(() => {
        
         fetchRestaurants()
         .then((res) => {
-            setChineseFood(res.chinese_food.results);
-            setIndianFood(res.indian_food.results);
-            setMexicanFood(res.mexican_food.results);
-            setFastfoodFood(res.fast_food.results);
-        })
+            setChineseRestaurants(res.result[0].chinese_food.results);
+            setIndianRestaurants(res.result[0].indian_food.results);
+            setMexicanRestaurants(res.result[0].mexican_food.results);
+            setFastfoodRestaurants(res.result[0].fast_food.results);
+        });
 
     }, [])
 
@@ -69,7 +71,7 @@ const Restaurants = () => {
                 <FlatList
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}
-                    data={chineseFood}
+                    data={chineseRestaurants}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
                 />
 
@@ -80,7 +82,7 @@ const Restaurants = () => {
                 <FlatList
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}
-                    data={mexicanFood}
+                    data={mexicanRestaurants}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
                 />
                 
@@ -90,7 +92,7 @@ const Restaurants = () => {
                 <FlatList
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}
-                    data={indianFood}
+                    data={indianRestaurants}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
                 />
                 
@@ -100,7 +102,7 @@ const Restaurants = () => {
                 <FlatList
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}
-                    data={fastfoodFood}
+                    data={fastfoodRestaurants}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
                 />
                 

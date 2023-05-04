@@ -5,6 +5,7 @@ import OrderHistory from '../Screens/OrderHistory';
 import AccountNavigation from './AccountNavigation';
 import Maps from '../Screens/Maps';
 import RestaurantNavigator from './RestaurantNavigation';
+import OrderCart from '../Screens/OrderCart';
 
 
 const Tab = createBottomTabNavigator();

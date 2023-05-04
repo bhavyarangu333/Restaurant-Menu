@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
 import { ScrollView } from 'react-native-gesture-handler';
 import User from '../Models/User';
-import { StripeProvider, CardField, useConfirmPayment, useStripe, Card } from '@stripe/stripe-react-native';
+import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import { makeDelivery } from '../BackendAPI/DoordashJWT';
 import { deliveryTimeContext, pickupTimeContext } from './Contexts';
 
@@ -45,7 +45,7 @@ const OrderCart = (props) => {
                         </View>
                     )
                 })
-            };
+            }
         </View>
     }
 
@@ -66,7 +66,7 @@ const OrderCart = (props) => {
       };
     
 
-      const initializePaymentSheet = async () => {
+    const initializePaymentSheet = async () => {
         const {
           paymentIntent,
           ephemeralKey,
@@ -80,7 +80,7 @@ const OrderCart = (props) => {
           paymentIntentClientSecret: paymentIntent,
           defaultBillingDetails: {
             name: 'Jane Doe',
-          }
+        }
         });
 
         if (!error) {
@@ -88,7 +88,7 @@ const OrderCart = (props) => {
         }
       };
 
-      const openPaymentSheet = async () => {
+    const openPaymentSheet = async () => {
         const { error } = await presentPaymentSheet();
     
         if (error) {
