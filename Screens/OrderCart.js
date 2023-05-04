@@ -7,7 +7,7 @@ import User from '../Models/User';
 import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import { makeDelivery } from '../BackendAPI/DoordashJWT';
 import { deliveryTimeContext, pickupTimeContext } from './Contexts';
-
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const OrderCart = (props) => {
@@ -28,22 +28,29 @@ const OrderCart = (props) => {
     });
 
     const [totalPrice, setTotalPrice] = useState(0);
+    const [orders, setOrders] = useState([]);
     let price = 0.0;
     useEffect(() => {
 
         if (props.route.params.orders.length !== 0) {
-
-            props.route.params.orders.map((order) => {
-                let cash = order.price.substring(order.price.indexOf('$') + 1);
-                price += parseFloat(cash);
-            });
-
+            setOrders(props.route.params.orders)
+            
             setTotalPrice(price);
         };
 
     },[])
 
-    if (props.route.params.orders === undefined || props.route.params.orders.length === 0) {
+    useEffect(() => {
+        orders.map((order) => {
+            let cash = order.price.substring(order.price.indexOf('$') + 1);
+            price += parseFloat(cash);
+        });
+        setTotalPrice(price);
+        // console.log(orders)
+
+    },[orders])
+
+    if (orders === undefined || orders.length === 0) {
         child = 
         <View style={{alignItems:'center', justifyContent:'center', marginTop: 20}}>
             <Text style={{fontWeight:'bold', fontSize: 20, color: '#894AFF'}}>Empty</Text>
@@ -53,11 +60,16 @@ const OrderCart = (props) => {
         child = 
         <View>
             {
-                props.route.params.orders.map((order) => {
+                orders.map((order, index) => {
                     return (
                         <View style={styles.menuRows}>
                             <Text style={styles.menuText}>{order.item}</Text>
-                            <Text style={styles.menuText}>{order.price}</Text>
+                            <View style={{flexDirection:'row'}}>
+                                <Text style={styles.menuText}>{order.price}</Text>
+                                <Ionicons name ='trash' size={15} onPress={() => {
+                                    setOrders(orders.filter((item, i) => i !== index))
+                                }}/>
+                            </View>
                         </View>
                     )
                 })

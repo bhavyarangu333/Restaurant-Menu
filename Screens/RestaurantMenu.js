@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import { SafeAreaView, View, Text, FlatList, ScrollView, Pressable, StyleSheet, Image, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
