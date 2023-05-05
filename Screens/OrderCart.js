@@ -9,6 +9,7 @@ import { makeDelivery } from '../BackendAPI/DoordashJWT';
 import { deliveryTimeContext, pickupTimeContext } from './Contexts';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { saveOrder } from '../BackendAPI/Read_Write_UserOrders';
 
 
 
@@ -31,12 +32,12 @@ const OrderCart = (props) => {
 
     const [totalPrice, setTotalPrice] = useState(0);
     const [orders, setOrders] = useState([]);
+    const [foodItems, setFoodItems] = useState([]);
     let price = 0.0;
     useEffect(() => {
 
         if (props.route.params.orders.length !== 0) {
-            setOrders(props.route.params.orders)
-            
+            setOrders(props.route.params.orders);
             setTotalPrice(price);
         };
 
@@ -45,6 +46,7 @@ const OrderCart = (props) => {
     useEffect(() => {
         orders.map((order) => {
             let cash = order.price.substring(order.price.indexOf('$') + 1);
+            setFoodItems(oldArray => [...oldArray, order.item]);
             price += parseFloat(cash);
         });
         setTotalPrice(price);
@@ -151,11 +153,13 @@ const OrderCart = (props) => {
                     navigation.navigate('Delivery', { cost: totalPrice, location: props.route.params.location, name: props.route.params.name, lat: props.route.params.lat, lng: props.route.params.lng});
                 });
 
+                saveOrder(foodItems, props.route.params.name, totalPrice, "In Progress", auth.currentUser.uid);
+
                 await AsyncStorage.setItem('pickupLocation', props.route.params.location);
                 await AsyncStorage.setItem('restaurantName', props.route.params.name);
                 await AsyncStorage.setItem('lng', JSON.stringify(props.route.params.lng));
                 await AsyncStorage.setItem('lat', JSON.stringify(props.route.params.lat));
-
+                await AsyncStorage.setItem('totalPrice', JSON.stringify(totalPrice));
         }
       };
 

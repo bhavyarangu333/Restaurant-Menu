@@ -4,114 +4,130 @@ import { getOrders } from '../BackendAPI/Read_Write_UserOrders';
 import Ionicon from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
-
-    return(
-        <View>
-            <View style = {styles.orderContainer}> 
-
-                <View style={styles.titleContainer}> 
-                    <Text style={styles.RestaurantTitle}>
-                        {RestaurantName}
-                    </Text>
-                    <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center', color:'#894AFF'}}/>
-                </View>
-                
-                <View style={styles.orderDetailsContainer}> 
-
-                    <Text style={styles.orderDetailsFont}>
-                        {OrderDate} 
-                    </Text>
-
-                    <View  
-                        style={styles.dotSeparator}
-                    />
-
-                    <Text style={styles.orderDetailsFont}>${TotalCost}</Text>
-
-                    <View  
-                        style={styles.dotSeparator}
-                    />
-
-                    <Text style={styles.orderDetailsFont}>
-                         {OrderItems.length} items
-                    </Text>
-
-                </View>
-
-                 {
-                    OrderItems.map((item) => {
-                        return <Text style={styles.itemOrderContainer}>{item}</Text>
-                    })
-                } 
-                
-                <View style={{flexDirection:'row', marginBottom: 10}}>
-
-                    <View style={styles.viewReceiptButtonContainer}> 
-                        <Pressable style={styles.textContainer} onPress={() =>console.log("Receipt button pressed.")}>
-                            <Text style={styles.buttonText}>
-                                View Receipt 
-                            </Text>
-                        </Pressable>
-                    </View>
-
-                    <View style={styles.reOrderButtonContainer}> 
-                        <Pressable style={styles.textContainer} onPress={() =>console.log("Reorder button pressed.")}>
-                            <Text style={styles.buttonText}>
-                                Reorder
-                            </Text>
-                        </Pressable>
-                    </View>
-
-                </View>
-            </View>
-
-            <View style={styles.listSeparator}/>
-        </View>
-
-
-    )
-}
+import { useNavigation } from '@react-navigation/native';
 
 const OrderHistory = (props) => {
     
     const [userOrders, setUserOrders] = useState([]);
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [restaurantName, setRestaurantName] = useState('');
+    const [pickupLocation, setPickupLocation] = useState('');
+    const [totalPrice, setTotalPrice] = useState(0);
+    
+    const navigation = useNavigation();
 
     //getting the recent orders whenever this page appears or "focuses"
     useFocusEffect(
         useCallback(() => {
+
             getOrders().then(result => {setUserOrders(result)});
             
-            //console.log('renoweonwenow')
-
-            // AsyncStorage.getItem('lat')
-            //     .then((res) => {
-            //         console.log(JSON.parse(res));
-            //     })
-
             AsyncStorage.getItem('lat')
                 .then(function (value){
                     const val = JSON.parse(value);
-                    console.log(val);
-                })
+                    setLatitude(val);
+                });
             
-                
+            AsyncStorage.getItem('lng')
+            .then(function (value){
+                const val = JSON.parse(value);
+                setLongitude(val);
+            });
+            
+            AsyncStorage.getItem('totalPrice')
+                .then(function (value){
+                    const val = JSON.parse(value);
+                    setTotalPrice(val);
+                });
+            
+            AsyncStorage.getItem('restaurantName')
+            .then(function (value){
+                setRestaurantName(value);
+            });
+            
+            AsyncStorage.getItem('pickupLocation')
+            .then(function (value){
+                setPickupLocation(value);
+            });
+
             return () => {console.log("Unfocused here.")};
             },[])
     );
 
-    // useEffect(() => {
-    //     // const res = await AsyncStorage.getItem('lat');
-    //     //     if (res !== null){
-    //     //         console.log(res)
-    //     //     }
-    //     //     else {
-    //     //         console.log('async item not set')
-    //     //     }
-    //     console.log('renoweonwenow')
-    // },[])
+    
+
+    const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
+
+        return(
+            <View>
+                <View style = {styles.orderContainer}> 
+    
+                    <View style={styles.titleContainer}> 
+                        <Text style={styles.RestaurantTitle}>
+                            {RestaurantName}
+                        </Text>
+                        <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center', color:'#894AFF'}}/>
+                    </View>
+                    
+                    <View style={styles.orderDetailsContainer}> 
+    
+                        <Text style={styles.orderDetailsFont}>
+                            {OrderDate} 
+                        </Text>
+    
+                        <View  
+                            style={styles.dotSeparator}
+                        />
+    
+                        <Text style={styles.orderDetailsFont}>${TotalCost}</Text>
+    
+                        <View  
+                            style={styles.dotSeparator}
+                        />
+    
+                        <Text style={styles.orderDetailsFont}>
+                             {OrderItems.length} items
+                        </Text>
+    
+                    </View>
+    
+                     {
+                        OrderItems.map((item) => {
+                            return <Text style={styles.itemOrderContainer}>{item}</Text>
+                        })
+                    } 
+                    
+                    <View style={{flexDirection:'row', marginBottom: 10}}>
+    
+                        <View style={styles.viewReceiptButtonContainer}>
+                            <Pressable style={styles.textContainer} onPress={() => {
+                                navigation.navigate('Delivery', { cost: totalPrice, location: pickupLocation, name: restaurantName, lat: latitude, lng: longitude});
+                            }}>
+                                <Text style={styles.buttonText}>
+                                    View Receipt 
+                                </Text>
+                            </Pressable>
+                        </View>
+    
+                        <View style={styles.reOrderButtonContainer}> 
+                            <Pressable style={styles.textContainer} onPress={() =>console.log("Reorder button pressed.")}>
+                                <Text style={styles.buttonText}>
+                                    Reorder
+                                </Text>
+                            </Pressable>
+                        </View>
+    
+                    </View>
+                </View>
+    
+                <View style={styles.listSeparator}/>
+            </View>
+    
+    
+        )
+    }
+    
 
     return (
         <SafeAreaView style = {styles.container}> 

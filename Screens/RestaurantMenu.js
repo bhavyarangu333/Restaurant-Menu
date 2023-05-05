@@ -3,7 +3,8 @@ import { SafeAreaView, View, Text, FlatList, ScrollView, Pressable, StyleSheet, 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { saveReservation } from '../BackendAPI/Read_Write_UserOrders';
 
 
 const RestaurantMenu = (props) => {
@@ -12,7 +13,7 @@ const RestaurantMenu = (props) => {
     navigation.setOptions({
         headerTitle: 'Order',
         headerRight: () => (
-            <Ionicons name='cart' size={25} style={{marginRight:15}} onPress={() => { navigation.navigate('Cart', {orders:currentItem, location:props.route.params.location, name: props.route.params.restaurantName, lat: props.route.params.lat, lng: props.route.params.lng }) }}/>
+            <Ionicons name='cart' size={25} style={{marginRight:15, color: '#894AFF' }} onPress={() => { navigation.navigate('Cart', {orders:currentItem, location:props.route.params.location, name: props.route.params.restaurantName, lat: props.route.params.lat, lng: props.route.params.lng }) }}/>
         )
       });
     
@@ -38,11 +39,50 @@ const RestaurantMenu = (props) => {
 
     const [orders, setOrder] = useState([{}]);
     const [currentItem, setCurrentItem] = useState([]);
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+      };
+    
+      const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+      };
+    
+      const handleConfirm = (date) => {
+        console.warn("A date has been picked: ", date);
+
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        const am_pm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        let strTime = hours + ':' + minutes + ' ' + am_pm;
+
+        const month = date.getMonth() + 1;
+        let day = date.getDate();
+        day = day < 10 ? '0' + day : day;
+        const year = date.getFullYear();
+        
+        let strDate = month + '/' + day + '/' + year;
+        saveReservation(strDate, strTime, props.route.params.restaurantName, props.route.params.location);
+        
+        hideDatePicker();
+      };
 
     return (
         <SafeAreaView style={styles.container}>
             
             <ScrollView contentContainerStyle={{flexGrow:1}}>
+
+            <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode='datetime'
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                display='inline'
+            />
 
                 <View style={styles.imageContainer}>
                     <Image source={{uri: props.route.params.menuPhoto}} style={styles.image}/>
@@ -59,6 +99,10 @@ const RestaurantMenu = (props) => {
                     {hours}
                     <Text style={{fontSize: 14}}>{props.route.params.location}</Text>
                 </View>
+
+                <Pressable style={[styles.orderButtonContainer, {marginBottom:20, marginHorizontal:10}]} onPress={showDatePicker}>
+                    <Text>Reserve</Text>
+                </Pressable>
 
                 <Text style={styles.subHeader}>Featured Items</Text>
 

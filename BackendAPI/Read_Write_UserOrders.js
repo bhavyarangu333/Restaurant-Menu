@@ -5,11 +5,11 @@ import { collection, getDocs, addDoc, Timestamp, query, where, orderBy, getDoc, 
 const currentUser = auth.currentUser;
 
 /** @returns {Promise<Array of Documents>} - Get all orders for current user filtered by uid */
-async function getOrders(){
+async function getOrders(uid){
     const orders = [];
 
     const userOrderRef = collection(db, "User Orders");
-    const userOrders = query(userOrderRef, where("uid", "==", "User ID"), orderBy("Order_Date", "desc"));  //replace User ID with currentUser.uid once auth set up
+    const userOrders = query(userOrderRef, where("uid", "==", uid), orderBy("Order_Date", "desc"));  //replace User ID with currentUser.uid once auth set up
     const querySnapshot = await getDocs(userOrders);
     querySnapshot.forEach((doc) => {
       orders.push(doc.data());
@@ -25,7 +25,7 @@ async function getOrders(){
  * @returns {void} - return nothing, saves order to database
  */
 
-async function saveOrder(orders, restaurant, total_price, deliveryID, orderCompletion){
+async function saveOrder(orders, restaurant, total_price, orderCompletion, uid){
 
 try {
   const docRef = await addDoc(collection(db, "User Orders"), {
@@ -33,8 +33,8 @@ try {
     Orders: orders,
     Restaurant: restaurant,
     Total_Price: total_price,
-    uid: auth.currentUser.uid,   //replace with currentUser.uid once auth set up
-    deliveryID: deliveryID,
+    uid: uid,   //replace with currentUser.uid once auth set up
+    // deliveryID: deliveryID,
     orderCompleted: orderCompletion
   });
 
@@ -79,9 +79,42 @@ async function getUser(){
 
 };
 
+async function saveReservation(date, time, name, location){
+
+try{
+  const docRef = addDoc(collection(db, "Reservations"), {
+    uid: auth.currentUser.uid,
+    date: date,
+    time: time,
+    restaurantName: name,
+    location: location
+  });
+  console.log("Doc written with id: ", docRef.id);
+}
+catch(error){
+  console.log(error);
+}
+
+};
+
+async function getReservations(uid){
+  const reservations = [];
+
+  // const reservationsRef = collection(db, "Reservations");
+  const q = query(collection(db, "Reservations"), where("uid", "==", uid));
+
+  // const userReservations = query(reservationsRef, where("uid", "==", uid));  //replace User ID with currentUser.uid once auth set up
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+      reservations.push(doc.data());
+  });
+  console.log(reservations)
+  return reservations;
+
+};
 
   
-export {getOrders, saveOrder, saveUser, getUser };
+export {getOrders, saveOrder, saveUser, getUser, saveReservation, getReservations };
 
 
 // Create new order on purchase button

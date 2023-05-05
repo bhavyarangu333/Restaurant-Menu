@@ -11,6 +11,7 @@ const Restaurants = () => {
     const [chineseRestaurants, setChineseRestaurants] = useState([]);
     const [mexicanRestaurants, setMexicanRestaurants] = useState([]);
     const [fastfoodRestaurants, setFastfoodRestaurants] = useState([]);
+    const [indianRestaurants, setIndianRestaurants] = useState([]);
 
 
     useEffect(() => {
@@ -18,12 +19,10 @@ const Restaurants = () => {
         fetchRestaurants()
         .then((res) => {
             setChineseRestaurants(res.chinese_food.results);
-            setMexicanRestaurants(res.mexican_food.results);
+            setIndianRestaurants(res.indian_food.results);
             setFastfoodRestaurants(res.fast_food.results);
+            setMexicanRestaurants(res.mexican_food.results);
         });
-
-        
-
     }, [])
 
     const RenderRestaurants = ({restaurantData}) => {
@@ -33,11 +32,22 @@ const Restaurants = () => {
 
         useEffect(() => {
             const photoRef = restaurantData.photos[0].photo_reference;
-            fetchPhotos(photoRef)
+            if (photoRef !== null){
+                fetchPhotos(photoRef)
                 .then((res) => {
-                    setPhotoURI(res.result)
+                    if(res.result !== null){
+                        setPhotoURI(res.result)
+                    }
+                    else {
+                        setPhotoURI('https://picsum.photos/200/300')
+                    }
 
                 })
+            }
+            else {
+                setPhotoURI('https://picsum.photos/200/300');
+            }
+            
         }, [])
 
         return(
@@ -79,6 +89,17 @@ const Restaurants = () => {
                 <View style={styles.listSeparator}/>
 
 
+                <Text style={styles.subHeaders}>Indian</Text>
+
+                <FlatList
+                    horizontal = {true}
+                    showsHorizontalScrollIndicator = {false}
+                    data={indianRestaurants}
+                    renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
+                />
+                
+                <View style={styles.listSeparator}/>
+
                 <Text style={styles.subHeaders}>Mexican</Text>
                 <FlatList
                     horizontal = {true}
@@ -86,12 +107,8 @@ const Restaurants = () => {
                     data={mexicanRestaurants}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
                 />
-                
-                <View style={styles.listSeparator}/>
 
-                
                 <View style={styles.listSeparator}/>
-
                 <Text style={styles.subHeaders}>Fast Food</Text>
                 <FlatList
                     horizontal = {true}
@@ -101,6 +118,10 @@ const Restaurants = () => {
                 />
                 
                 <View style={styles.listSeparator}/>
+
+
+                
+                
 
 
             </ScrollView>
