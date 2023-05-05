@@ -5,6 +5,7 @@ import Ionicon from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../firebase';
 
 const OrderHistory = (props) => {
     
@@ -21,7 +22,8 @@ const OrderHistory = (props) => {
     useFocusEffect(
         useCallback(() => {
 
-            getOrders().then(result => {setUserOrders(result)});
+            getOrders(auth.currentUser.uid)
+            .then(result => {setUserOrders(result)});
             
             AsyncStorage.getItem('lat')
                 .then(function (value){
@@ -57,7 +59,7 @@ const OrderHistory = (props) => {
 
     
 
-    const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
+    const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost, Progress}) => {
 
         return(
             <View>
@@ -67,7 +69,10 @@ const OrderHistory = (props) => {
                         <Text style={styles.RestaurantTitle}>
                             {RestaurantName}
                         </Text>
-                        <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center', color:'#894AFF'}}/>
+                        <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center', color:'#894AFF'}} onPress={() => {
+                            navigation.navigate('Delivery', { cost: totalPrice, location: pickupLocation, name: restaurantName, lat: latitude, lng: longitude});
+
+                        }}/>
                     </View>
                     
                     <View style={styles.orderDetailsContainer}> 
@@ -89,7 +94,15 @@ const OrderHistory = (props) => {
                         <Text style={styles.orderDetailsFont}>
                              {OrderItems.length} items
                         </Text>
-    
+
+                        <View
+                            style={styles.dotSeparator}
+                        />
+
+                        <Text style={styles.orderDetailsFont}>
+                             {Progress}
+                        </Text>
+
                     </View>
     
                      {
@@ -98,27 +111,6 @@ const OrderHistory = (props) => {
                         })
                     } 
                     
-                    <View style={{flexDirection:'row', marginBottom: 10}}>
-    
-                        <View style={styles.viewReceiptButtonContainer}>
-                            <Pressable style={styles.textContainer} onPress={() => {
-                                navigation.navigate('Delivery', { cost: totalPrice, location: pickupLocation, name: restaurantName, lat: latitude, lng: longitude});
-                            }}>
-                                <Text style={styles.buttonText}>
-                                    View Receipt 
-                                </Text>
-                            </Pressable>
-                        </View>
-    
-                        <View style={styles.reOrderButtonContainer}> 
-                            <Pressable style={styles.textContainer} onPress={() =>console.log("Reorder button pressed.")}>
-                                <Text style={styles.buttonText}>
-                                    Reorder
-                                </Text>
-                            </Pressable>
-                        </View>
-    
-                    </View>
                 </View>
     
                 <View style={styles.listSeparator}/>
@@ -133,7 +125,7 @@ const OrderHistory = (props) => {
         <SafeAreaView style = {styles.container}> 
                 <FlatList
                     data={userOrders}
-                    renderItem={({item}) => <RenderOrders RestaurantName={item["Restaurant"]} OrderDate={item["Order_Date"].toDate().toDateString()} OrderItems={item["Orders"]} TotalCost={item["Total_Price"]}/> }
+                    renderItem={({item}) => <RenderOrders RestaurantName={item["Restaurant"]} OrderDate={item["Order_Date"].toDate().toDateString()} OrderItems={item["Orders"]} TotalCost={item["Total_Price"]} Progress={item["orderCompleted"]}/> }
                     keyExtractor={item => item["id"]}
                 />
             

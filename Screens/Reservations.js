@@ -28,11 +28,11 @@ const Reservations = () => {
                 </View>
                 <Text>{location}</Text>
                 <View style={{flexDirection:'row'}}>
-                    <Text>Date</Text>
+                    <Text>Date: </Text>
                     <Text>{date}</Text>
                 </View>
-                <View>
-                    <Text>Time</Text>
+                <View style={{flexDirection:'row'}}>
+                    <Text>Time: </Text>
                     <Text>{time}</Text>
                 </View>
             </View>

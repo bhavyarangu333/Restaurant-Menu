@@ -153,6 +153,7 @@ const OrderCart = (props) => {
                     navigation.navigate('Delivery', { cost: totalPrice, location: props.route.params.location, name: props.route.params.name, lat: props.route.params.lat, lng: props.route.params.lng});
                 });
 
+                console.log(foodItems)
                 saveOrder(foodItems, props.route.params.name, totalPrice, "In Progress", auth.currentUser.uid);
 
                 await AsyncStorage.setItem('pickupLocation', props.route.params.location);
