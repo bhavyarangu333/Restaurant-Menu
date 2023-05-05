@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Pressable } from 'react-native';
 import { getOrders } from '../BackendAPI/Read_Write_UserOrders';
 import Ionicon from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
 
@@ -82,9 +84,34 @@ const OrderHistory = (props) => {
         useCallback(() => {
             getOrders().then(result => {setUserOrders(result)});
             
+            //console.log('renoweonwenow')
+
+            // AsyncStorage.getItem('lat')
+            //     .then((res) => {
+            //         console.log(JSON.parse(res));
+            //     })
+
+            AsyncStorage.getItem('lat')
+                .then(function (value){
+                    const val = JSON.parse(value);
+                    console.log(val);
+                })
+            
+                
             return () => {console.log("Unfocused here.")};
             },[])
     );
+
+    // useEffect(() => {
+    //     // const res = await AsyncStorage.getItem('lat');
+    //     //     if (res !== null){
+    //     //         console.log(res)
+    //     //     }
+    //     //     else {
+    //     //         console.log('async item not set')
+    //     //     }
+    //     console.log('renoweonwenow')
+    // },[])
 
     return (
         <SafeAreaView style = {styles.container}> 

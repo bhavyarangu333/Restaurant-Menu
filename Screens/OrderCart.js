@@ -8,6 +8,8 @@ import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import { makeDelivery } from '../BackendAPI/DoordashJWT';
 import { deliveryTimeContext, pickupTimeContext } from './Contexts';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const OrderCart = (props) => {
@@ -46,7 +48,6 @@ const OrderCart = (props) => {
             price += parseFloat(cash);
         });
         setTotalPrice(price);
-        // console.log(orders)
 
     },[orders])
 
@@ -123,6 +124,7 @@ const OrderCart = (props) => {
           Alert.alert(`Error code: ${error.code}`, error.message);
         } else {
 
+
             makeDelivery().
                 then((res) => {
 
@@ -145,8 +147,15 @@ const OrderCart = (props) => {
                     
                     setPickupTime(pickup_time_hour_min + pickup_am_pm);
                     setDeliveryTime(dropoff_time_hour_min + dropoff_am_pm);
-                    navigation.navigate('Delivery', { orders:props.route.params.orders, location: props.route.params.location, name: props.route.params.name});
+
+                    navigation.navigate('Delivery', { cost: totalPrice, location: props.route.params.location, name: props.route.params.name, lat: props.route.params.lat, lng: props.route.params.lng});
                 });
+
+                await AsyncStorage.setItem('pickupLocation', props.route.params.location);
+                await AsyncStorage.setItem('restaurantName', props.route.params.name);
+                await AsyncStorage.setItem('lng', JSON.stringify(props.route.params.lng));
+                await AsyncStorage.setItem('lat', JSON.stringify(props.route.params.lat));
+
         }
       };
 

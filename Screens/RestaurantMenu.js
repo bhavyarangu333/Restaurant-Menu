@@ -12,16 +12,16 @@ const RestaurantMenu = (props) => {
     navigation.setOptions({
         headerTitle: 'Order',
         headerRight: () => (
-            <Ionicons name='cart' size={25} style={{marginRight:15}} onPress={() => { navigation.navigate('Cart', {orders:currentItem, location:props.route.params.location, name: props.route.params.restaurantName}) }}/>
+            <Ionicons name='cart' size={25} style={{marginRight:15}} onPress={() => { navigation.navigate('Cart', {orders:currentItem, location:props.route.params.location, name: props.route.params.restaurantName, lat: props.route.params.lat, lng: props.route.params.lng }) }}/>
         )
       });
     
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     setCurrentItem([{item: 'Combo B', price: '$10.11'}]);
+        // setCurrentItem([{item: 'Combo B', price: '$10.11'}]);
         
 
-    // },[]);
+    },[]);
 
     let hours;
 

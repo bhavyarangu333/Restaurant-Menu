@@ -31,14 +31,14 @@ const DeliveryScreen = (props) => {
 
 
     const origin = { latitude: 33.879799, longitude: -117.885231};
-    const destination = { latitude: 33.8120918, longitude: -117.9189742};
+    const destination = { latitude: props.route.params.lat, longitude: props.route.params.lng};
     const [modalVisible, setModalVisible] = useState(false);
     const { deliveryTime, setDeliveryTime } = useContext(deliveryTimeContext);
     const { pickupTime, setPickupTime } = useContext(pickupTimeContext);
 
-    useEffect(() => {
-        console.log(props.route.params.pickUpTime);
-    },[])
+    // useEffect(() => {
+    //     console.log(props.route.params.pickUpTime);
+    // },[])
 
     return (
         <View style={styles.container}>
@@ -54,8 +54,8 @@ const DeliveryScreen = (props) => {
 
                 <Marker
                     coordinate={{
-                        latitude: destination.latitude,
-                        longitude: destination.longitude,
+                        latitude: props.route.params.lat,
+                        longitude: props.route.params.lng,
                     }}
                 />
 
@@ -98,7 +98,7 @@ const DeliveryScreen = (props) => {
                         </View>
                         <View style={{flexDirection:'row', marginBottom:20}}>
                             <Text>Cost: </Text>
-                            <Text>cost</Text>
+                            <Text>${props.route.params.cost}</Text>
                         </View>
 
                         <Pressable
