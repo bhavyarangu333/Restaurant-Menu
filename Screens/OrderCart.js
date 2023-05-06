@@ -44,6 +44,8 @@ const OrderCart = (props) => {
     },[])
 
     useEffect(() => {
+
+        setFoodItems([]);
         orders.map((order) => {
             let cash = order.price.substring(order.price.indexOf('$') + 1);
             setFoodItems(oldArray => [...oldArray, order.item]);
@@ -127,7 +129,7 @@ const OrderCart = (props) => {
         } else {
 
 
-            makeDelivery().
+            makeDelivery(props.route.params.location).
                 then((res) => {
 
                     const pst_dropoff = new Date(res.dropoff_time_estimated).
@@ -136,16 +138,16 @@ const OrderCart = (props) => {
                     });
 
                     const dropoff_time = pst_dropoff.substring(pst_dropoff.indexOf(' ') + 1);
-                    const dropoff_time_hour_min = dropoff_time.substring(0,5);
-                    const dropoff_am_pm = dropoff_time.substring(8,11);
+                    const dropoff_time_hour_min = dropoff_time.length < 11 ? dropoff_time.substring(0,4) : dropoff_time.substring(0,5);
+                    const dropoff_am_pm = dropoff_time.length < 11 ? dropoff_time.substring(7,10) : dropoff_time.substring(8,11); 
                      
                     const pst_pickup = new Date(res.pickup_time_estimated).toLocaleString('en-US',{
                         timeZone:'America/Los_Angeles'
                     });
 
                     const pickup_time = pst_pickup.substring(pst_pickup.indexOf(' ') + 1);
-                    const pickup_time_hour_min = pickup_time.substring(0,5);
-                    const pickup_am_pm = pickup_time.substring(8,11);
+                    const pickup_time_hour_min = pickup_time.length < 11 ? pickup_time.substring(0,4) : pickup_time.substring(0,5);
+                    const pickup_am_pm = pickup_time.length < 11 ? pickup_time.substring(7,10) : pickup_time.substring(8,11);
                     
                     setPickupTime(pickup_time_hour_min + pickup_am_pm);
                     setDeliveryTime(dropoff_time_hour_min + dropoff_am_pm);
@@ -153,7 +155,6 @@ const OrderCart = (props) => {
                     navigation.navigate('Delivery', { cost: totalPrice, location: props.route.params.location, name: props.route.params.name, lat: props.route.params.lat, lng: props.route.params.lng});
                 });
 
-                console.log(foodItems)
                 saveOrder(foodItems, props.route.params.name, totalPrice, "In Progress", auth.currentUser.uid);
 
                 await AsyncStorage.setItem('pickupLocation', props.route.params.location);

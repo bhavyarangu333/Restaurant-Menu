@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState, useContext } from 'react';
-import { Pressable, StyleSheet, View, Text, Modal } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
-import { getNearbyRegion, fetchMapsKey, fetchRestaurants } from '../BackendAPI/Geocode';
-import MapViewDirections from 'react-native-maps-directions'
-import { useFocusEffect } from '@react-navigation/native';
-import User from '../Models/User';
+import { fetchRestaurants } from '../BackendAPI/Geocode';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
@@ -13,7 +10,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 const Maps = () => {
 
     const [chineseRestaurants, setChineseRestaurants] = useState([]);
-    // const [indianRestaurants, setIndianRestaurants] = useState([]);
+    const [indianRestaurants, setIndianRestaurants] = useState([]);
     const [mexicanRestaurants, setMexicanRestaurants] = useState([]);
     const [fastfoodRestaurants, setFastfoodRestaurants] = useState([]);
     
@@ -23,7 +20,7 @@ const Maps = () => {
         fetchRestaurants()
         .then((res) => {
             setChineseRestaurants(res.chinese_food.results);
-            // setIndianRestaurants(res.result[0].indian_food.results);
+            setIndianRestaurants(res.indian_food.results);
             setMexicanRestaurants(res.mexican_food.results);
             setFastfoodRestaurants(res.fast_food.results);
         });
@@ -65,7 +62,7 @@ const Maps = () => {
                     })
                 }
 
-                {/* {
+                {
                     indianRestaurants.map((res) => {
                         return (
                             <Marker coordinate={{latitude: res.geometry.location.lat, longitude: res.geometry.location.lng}}>
@@ -82,7 +79,7 @@ const Maps = () => {
                             </Marker>
                         )
                     })
-                } */}
+                }
 
                 {
                     mexicanRestaurants.map((res) => {

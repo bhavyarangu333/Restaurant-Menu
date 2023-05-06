@@ -9,6 +9,10 @@ import { saveReservation } from '../BackendAPI/Read_Write_UserOrders';
 
 const RestaurantMenu = (props) => {
 
+    const [orders, setOrder] = useState([{}]);
+    const [currentItem, setCurrentItem] = useState([]);
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
     const navigation = useNavigation();
     navigation.setOptions({
         headerTitle: 'Order',
@@ -17,13 +21,6 @@ const RestaurantMenu = (props) => {
         )
       });
     
-    useEffect(() => {
-
-        // setCurrentItem([{item: 'Combo B', price: '$10.11'}]);
-        
-
-    },[]);
-
     let hours;
 
     if (props.route.params.open) {
@@ -36,10 +33,6 @@ const RestaurantMenu = (props) => {
     const addToCart = (itemName, priceOfItem ) => {
         setCurrentItem([...currentItem, {item: itemName, price: priceOfItem}]);
     };
-
-    const [orders, setOrder] = useState([{}]);
-    const [currentItem, setCurrentItem] = useState([]);
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -114,7 +107,6 @@ const RestaurantMenu = (props) => {
                         Alert.alert('Cart', 'Add to Cart?',[
                             {
                                 text: 'Cancel',
-                                onPress: () => console.log("Cancelled pressed"),
                                 style: 'cancel',
                             },
                             {
@@ -140,7 +132,6 @@ const RestaurantMenu = (props) => {
                         Alert.alert('Cart', 'Add to Cart?',[
                             {
                                 text: 'Cancel',
-                                onPress: () => console.log("Cancelled pressed"),
                                 style: 'cancel',
                             },
                             {
@@ -164,7 +155,6 @@ const RestaurantMenu = (props) => {
                         Alert.alert('Cart', 'Add to Cart?',[
                             {
                                 text: 'Cancel',
-                                onPress: () => console.log("Cancelled pressed"),
                                 style: 'cancel',
                             },
                             {
@@ -184,20 +174,18 @@ const RestaurantMenu = (props) => {
                 <Text style={styles.subHeader}>Soft Drinks</Text>
 
                 <View style={styles.menuButtons}>
-                    <Text style={styles.menuTitle}>Horchata</Text>
+                    <Text style={styles.menuTitle}>Diet Pepsi</Text>
                     <Text>$3.99</Text>
                     <Pressable style={styles.orderButtonContainer} onPress={() => {
                         Alert.alert('Cart', 'Add to Cart?',[
                             {
                                 text: 'Cancel',
-                                onPress: () => console.log("Cancelled pressed"),
                                 style: 'cancel',
                             },
                             {
                                 text: 'Add to Cart',
                                 onPress: () => {
-                                    addToCart('Horchata', '$3.99')
-                                    console.log(currentItem)
+                                    addToCart('Diet Pepsi', '$3.99')
                             }
                             }
                         ])
@@ -215,14 +203,12 @@ const RestaurantMenu = (props) => {
                         Alert.alert('Cart', 'Add to Cart?',[
                             {
                                 text: 'Cancel',
-                                onPress: () => console.log("Cancelled pressed"),
                                 style: 'cancel',
                             },
                             {
                                 text: 'Add to Cart',
                                 onPress: () => {
-                                    addToCart('Coca Cola', '$10.99')
-                                    console.log(currentItem)
+                                    addToCart('Coca Cola', '$2.99')
                             }
                             }
                         ])

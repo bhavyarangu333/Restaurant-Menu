@@ -19,7 +19,7 @@ const Restaurants = () => {
         fetchRestaurants()
         .then((res) => {
             setChineseRestaurants(res.chinese_food.results);
-            setIndianRestaurants(res.indian_food.results);
+            // setIndianRestaurants(res.indian_food.results);
             setFastfoodRestaurants(res.fast_food.results);
             setMexicanRestaurants(res.mexican_food.results);
         });
@@ -89,16 +89,16 @@ const Restaurants = () => {
                 <View style={styles.listSeparator}/>
 
 
-                <Text style={styles.subHeaders}>Indian</Text>
+                {/* <Text style={styles.subHeaders}>Indian</Text> */}
 
-                <FlatList
+                {/* <FlatList
                     horizontal = {true}
                     showsHorizontalScrollIndicator = {false}
                     data={indianRestaurants}
                     renderItem={({item}) => <RenderRestaurants restaurantData={item}/>}
-                />
+                /> */}
                 
-                <View style={styles.listSeparator}/>
+                {/* <View style={styles.listSeparator}/> */}
 
                 <Text style={styles.subHeaders}>Mexican</Text>
                 <FlatList
@@ -118,11 +118,6 @@ const Restaurants = () => {
                 />
                 
                 <View style={styles.listSeparator}/>
-
-
-                
-                
-
 
             </ScrollView>
             

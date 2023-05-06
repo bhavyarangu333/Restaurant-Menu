@@ -22,7 +22,9 @@ const Reservations = () => {
     const RenderReservationsList = ({date, time, name, location}) => {
         
         return (
+        <View>
             <View style={styles.reservationsContainer}>
+
                 <View style={styles.titleContainer}>
                     <Text style={styles.RestaurantTitle}>{name}</Text>
                 </View>
@@ -35,7 +37,11 @@ const Reservations = () => {
                     <Text>Time: </Text>
                     <Text>{time}</Text>
                 </View>
+
             </View>
+
+            <View style={styles.listSeparator}/>
+        </View>
         )
     }
 
@@ -78,6 +84,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 5
+    },
+
+    listSeparator: {
+        borderBottomWidth:10,
+        borderBottomColor:'#DCDCDC'
     },
 
 });

@@ -12,33 +12,11 @@ import { deliveryTimeContext, pickupTimeContext } from './Contexts';
 
 const DeliveryScreen = (props) => {
 
-    // const [longitude, setLongitude] = useState(0);
-    // const [latitude, setLatitude] = useState(0);
-
-    // const region = () => {
-
-    //     getNearbyRegion().then((res) => {
-    //         setLatitude(res.lat);
-    //         setLongitude(res.lng);
-    //     })
-    //     return {
-    //         latitude: latitude,
-    //         longitude:longitude,
-    //         latitudeDelta: .009,
-    //         longitudeDelta: .009
-    //     };
-    // };
-
-
     const origin = { latitude: 33.879799, longitude: -117.885231};
     const destination = { latitude: props.route.params.lat, longitude: props.route.params.lng};
     const [modalVisible, setModalVisible] = useState(false);
     const { deliveryTime, setDeliveryTime } = useContext(deliveryTimeContext);
     const { pickupTime, setPickupTime } = useContext(pickupTimeContext);
-
-    // useEffect(() => {
-    //     console.log(props.route.params.pickUpTime);
-    // },[])
 
     return (
         <View style={styles.container}>
