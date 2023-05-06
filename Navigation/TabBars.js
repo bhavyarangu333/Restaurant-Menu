@@ -5,6 +5,8 @@ import OrderHistory from '../Screens/OrderHistory';
 import AccountNavigation from './AccountNavigation';
 import Maps from '../Screens/Maps';
 import RestaurantNavigator from './RestaurantNavigation';
+import OrderCart from '../Screens/OrderCart';
+import Reservations from '../Screens/Reservations';
 
 
 const Tab = createBottomTabNavigator();
@@ -20,6 +22,7 @@ function Tabs(){
                 let iconName = "";
                 if (route.name == "Order History") { iconName = focused ? "list-circle" : "list-circle-outline" }
                 else if (route.name == "RestaurantsNav"){ iconName = focused ? "restaurant" : "restaurant-outline" }
+                else if (route.name == "Reservations"){ iconName = focused ? "calendar" : "calendar-outline" }
                 else if (route.name == "Map"){ iconName = focused ? "map" : "map-outline" }
                 else if (route.name == "Settings"){ iconName = focused ? "person-circle" : "person-circle-outline" }
                 return <Ionicons name={iconName} size={20} color={color}/>
@@ -27,6 +30,7 @@ function Tabs(){
         })}> 
             <Tab.Screen name = "RestaurantsNav" component={RestaurantNavigator} options={{tabBarLabel:'Restaurants'}}/>
             <Tab.Screen name = "Map" component={Maps}/>
+            <Tab.Screen name = "Reservations" component={Reservations} options={{headerShown:true}}/>
             <Tab.Screen name = "Order History" component={OrderHistory} options={{headerShown:true}}/>
             <Tab.Screen name = "Settings" component={AccountNavigation}/>
 

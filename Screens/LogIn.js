@@ -43,7 +43,6 @@ const Login = () => {
                             console.log(error.message);
                             alert("Invalid Credentials");
                         });
-                    // navigation.navigate('Home')
                   
                 }} style={styles.button}>
                     <Text style={{color:'white'}}>Log In</Text>
@@ -58,7 +57,6 @@ const Login = () => {
 
                 
         </SafeAreaView>
-
     );
 
 };

@@ -1,96 +1,131 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Pressable } from 'react-native';
 import { getOrders } from '../BackendAPI/Read_Write_UserOrders';
 import Ionicon from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
-
-const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost}) => {
-
-    return(
-        <View>
-            <View style = {styles.orderContainer}> 
-
-                <View style={styles.titleContainer}> 
-                    <Text style={styles.RestaurantTitle}>
-                        {RestaurantName}
-                    </Text>
-                    <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center', color:'#894AFF'}}/>
-                </View>
-                
-                <View style={styles.orderDetailsContainer}> 
-
-                    <Text style={styles.orderDetailsFont}>
-                        {OrderDate} 
-                    </Text>
-
-                    <View  
-                        style={styles.dotSeparator}
-                    />
-
-                    <Text style={styles.orderDetailsFont}>${TotalCost}</Text>
-
-                    <View  
-                        style={styles.dotSeparator}
-                    />
-
-                    <Text style={styles.orderDetailsFont}>
-                         {OrderItems.length} items
-                    </Text>
-
-                </View>
-
-                 {
-                    OrderItems.map((item) => {
-                        return <Text style={styles.itemOrderContainer}>{item}</Text>
-                    })
-                } 
-                
-                <View style={{flexDirection:'row', marginBottom: 10}}>
-
-                    <View style={styles.viewReceiptButtonContainer}> 
-                        <Pressable style={styles.textContainer} onPress={() =>console.log("Receipt button pressed.")}>
-                            <Text style={styles.buttonText}>
-                                View Receipt 
-                            </Text>
-                        </Pressable>
-                    </View>
-
-                    <View style={styles.reOrderButtonContainer}> 
-                        <Pressable style={styles.textContainer} onPress={() =>console.log("Reorder button pressed.")}>
-                            <Text style={styles.buttonText}>
-                                Reorder
-                            </Text>
-                        </Pressable>
-                    </View>
-
-                </View>
-            </View>
-
-            <View style={styles.listSeparator}/>
-        </View>
-
-
-    )
-}
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { auth } from '../firebase';
 
 const OrderHistory = (props) => {
     
     const [userOrders, setUserOrders] = useState([]);
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [restaurantName, setRestaurantName] = useState('');
+    const [pickupLocation, setPickupLocation] = useState('');
+    const [totalPrice, setTotalPrice] = useState(0);
+    
+    const navigation = useNavigation();
 
     //getting the recent orders whenever this page appears or "focuses"
     useFocusEffect(
         useCallback(() => {
-            getOrders().then(result => {setUserOrders(result)});
+
+            getOrders(auth.currentUser.uid)
+            .then(result => {setUserOrders(result)});
             
+            AsyncStorage.getItem('lat')
+                .then(function (value){
+                    const val = JSON.parse(value);
+                    setLatitude(val);
+                });
+            
+            AsyncStorage.getItem('lng')
+            .then(function (value){
+                const val = JSON.parse(value);
+                setLongitude(val);
+            });
+            
+            AsyncStorage.getItem('totalPrice')
+                .then(function (value){
+                    const val = JSON.parse(value);
+                    setTotalPrice(val);
+                });
+            
+            AsyncStorage.getItem('restaurantName')
+            .then(function (value){
+                setRestaurantName(value);
+            });
+            
+            AsyncStorage.getItem('pickupLocation')
+            .then(function (value){
+                setPickupLocation(value);
+            });
+
             return () => {console.log("Unfocused here.")};
             },[])
     );
+
+    
+
+    const RenderOrders = ({RestaurantName, OrderDate, OrderItems, TotalCost, Progress}) => {
+
+        return(
+            <View>
+                <View style = {styles.orderContainer}> 
+    
+                    <View style={styles.titleContainer}> 
+                        <Text style={styles.RestaurantTitle}>
+                            {RestaurantName}
+                        </Text>
+                        <Ionicon name = "arrow-forward-circle" size={20} style={{alignSelf:'center', color:'#894AFF'}} onPress={() => {
+                            navigation.navigate('Delivery', { cost: totalPrice, location: pickupLocation, name: restaurantName, lat: latitude, lng: longitude});
+
+                        }}/>
+                    </View>
+                    
+                    <View style={styles.orderDetailsContainer}> 
+    
+                        <Text style={styles.orderDetailsFont}>
+                            {OrderDate} 
+                        </Text>
+    
+                        <View  
+                            style={styles.dotSeparator}
+                        />
+    
+                        <Text style={styles.orderDetailsFont}>${TotalCost}</Text>
+    
+                        <View  
+                            style={styles.dotSeparator}
+                        />
+    
+                        <Text style={styles.orderDetailsFont}>
+                             {OrderItems.length} items
+                        </Text>
+
+                        <View
+                            style={styles.dotSeparator}
+                        />
+
+                        <Text style={styles.orderDetailsFont}>
+                             {Progress}
+                        </Text>
+
+                    </View>
+    
+                     {
+                        OrderItems.map((item) => {
+                            return <Text style={styles.itemOrderContainer}>{item}</Text>
+                        })
+                    } 
+                    
+                </View>
+    
+                <View style={styles.listSeparator}/>
+            </View>
+    
+    
+        )
+    }
+    
 
     return (
         <SafeAreaView style = {styles.container}> 
                 <FlatList
                     data={userOrders}
-                    renderItem={({item}) => <RenderOrders RestaurantName={item["Restaurant"]} OrderDate={item["Order_Date"].toDate().toDateString()} OrderItems={item["Orders"]} TotalCost={item["Total_Price"]}/> }
+                    renderItem={({item}) => <RenderOrders RestaurantName={item["Restaurant"]} OrderDate={item["Order_Date"].toDate().toDateString()} OrderItems={item["Orders"]} TotalCost={item["Total_Price"]} Progress={item["orderCompleted"]}/> }
                     keyExtractor={item => item["id"]}
                 />
             

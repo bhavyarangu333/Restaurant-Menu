@@ -4,9 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
 import { ScrollView } from 'react-native-gesture-handler';
 import User from '../Models/User';
-import { StripeProvider, CardField, useConfirmPayment, useStripe, Card } from '@stripe/stripe-react-native';
+import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import { makeDelivery } from '../BackendAPI/DoordashJWT';
 import { deliveryTimeContext, pickupTimeContext } from './Contexts';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { saveOrder } from '../BackendAPI/Read_Write_UserOrders';
 
 
 
@@ -27,7 +30,32 @@ const OrderCart = (props) => {
         headerTitle: 'Your Cart'
     });
 
-    if (props.route.params.orders === undefined || props.route.params.orders.length === 0) {
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [orders, setOrders] = useState([]);
+    const [foodItems, setFoodItems] = useState([]);
+    let price = 0.0;
+    useEffect(() => {
+
+        if (props.route.params.orders.length !== 0) {
+            setOrders(props.route.params.orders);
+            setTotalPrice(price);
+        };
+
+    },[])
+
+    useEffect(() => {
+
+        setFoodItems([]);
+        orders.map((order) => {
+            let cash = order.price.substring(order.price.indexOf('$') + 1);
+            setFoodItems(oldArray => [...oldArray, order.item]);
+            price += parseFloat(cash);
+        });
+        setTotalPrice(price);
+
+    },[orders])
+
+    if (orders === undefined || orders.length === 0) {
         child = 
         <View style={{alignItems:'center', justifyContent:'center', marginTop: 20}}>
             <Text style={{fontWeight:'bold', fontSize: 20, color: '#894AFF'}}>Empty</Text>
@@ -37,15 +65,20 @@ const OrderCart = (props) => {
         child = 
         <View>
             {
-                props.route.params.orders.map((order) => {
+                orders.map((order, index) => {
                     return (
                         <View style={styles.menuRows}>
                             <Text style={styles.menuText}>{order.item}</Text>
-                            <Text style={styles.menuText}>{order.price}</Text>
+                            <View style={{flexDirection:'row'}}>
+                                <Text style={styles.menuText}>{order.price}</Text>
+                                <Ionicons name ='trash' size={15} onPress={() => {
+                                    setOrders(orders.filter((item, i) => i !== index))
+                                }}/>
+                            </View>
                         </View>
                     )
                 })
-            };
+            }
         </View>
     }
 
@@ -66,7 +99,7 @@ const OrderCart = (props) => {
       };
     
 
-      const initializePaymentSheet = async () => {
+    const initializePaymentSheet = async () => {
         const {
           paymentIntent,
           ephemeralKey,
@@ -80,7 +113,7 @@ const OrderCart = (props) => {
           paymentIntentClientSecret: paymentIntent,
           defaultBillingDetails: {
             name: 'Jane Doe',
-          }
+        }
         });
 
         if (!error) {
@@ -88,14 +121,15 @@ const OrderCart = (props) => {
         }
       };
 
-      const openPaymentSheet = async () => {
+    const openPaymentSheet = async () => {
         const { error } = await presentPaymentSheet();
     
         if (error) {
           Alert.alert(`Error code: ${error.code}`, error.message);
         } else {
 
-            makeDelivery().
+
+            makeDelivery(props.route.params.location).
                 then((res) => {
 
                     const pst_dropoff = new Date(res.dropoff_time_estimated).
@@ -104,21 +138,30 @@ const OrderCart = (props) => {
                     });
 
                     const dropoff_time = pst_dropoff.substring(pst_dropoff.indexOf(' ') + 1);
-                    const dropoff_time_hour_min = dropoff_time.substring(0,5);
-                    const dropoff_am_pm = dropoff_time.substring(8,11);
+                    const dropoff_time_hour_min = dropoff_time.length < 11 ? dropoff_time.substring(0,4) : dropoff_time.substring(0,5);
+                    const dropoff_am_pm = dropoff_time.length < 11 ? dropoff_time.substring(7,10) : dropoff_time.substring(8,11); 
                      
                     const pst_pickup = new Date(res.pickup_time_estimated).toLocaleString('en-US',{
                         timeZone:'America/Los_Angeles'
                     });
 
                     const pickup_time = pst_pickup.substring(pst_pickup.indexOf(' ') + 1);
-                    const pickup_time_hour_min = pickup_time.substring(0,5);
-                    const pickup_am_pm = pickup_time.substring(8,11);
+                    const pickup_time_hour_min = pickup_time.length < 11 ? pickup_time.substring(0,4) : pickup_time.substring(0,5);
+                    const pickup_am_pm = pickup_time.length < 11 ? pickup_time.substring(7,10) : pickup_time.substring(8,11);
                     
                     setPickupTime(pickup_time_hour_min + pickup_am_pm);
                     setDeliveryTime(dropoff_time_hour_min + dropoff_am_pm);
-                    navigation.navigate('Delivery', { orders:props.route.params.orders, location: props.route.params.location, name: props.route.params.name});
+
+                    navigation.navigate('Delivery', { cost: totalPrice, location: props.route.params.location, name: props.route.params.name, lat: props.route.params.lat, lng: props.route.params.lng});
                 });
+
+                saveOrder(foodItems, props.route.params.name, totalPrice, "In Progress", auth.currentUser.uid);
+
+                await AsyncStorage.setItem('pickupLocation', props.route.params.location);
+                await AsyncStorage.setItem('restaurantName', props.route.params.name);
+                await AsyncStorage.setItem('lng', JSON.stringify(props.route.params.lng));
+                await AsyncStorage.setItem('lat', JSON.stringify(props.route.params.lat));
+                await AsyncStorage.setItem('totalPrice', JSON.stringify(totalPrice));
         }
       };
 
@@ -132,6 +175,11 @@ const OrderCart = (props) => {
             <SafeAreaView style={styles.container}>
                 <ScrollView contentContainerStyle={{flexGrow:1}}>
                     {child}
+                    <View style={styles.menuRows}>
+                        <Text style={{fontWeight:'bold'}}>Total:</Text>
+                        <Text style={{fontWeight:'bold'}}>${totalPrice}</Text>
+                    </View>
+                    
                 </ScrollView>
                 <Pressable style={styles.checkoutButton} onPress={() => {openPaymentSheet()}} disabled={!loading}>
                     <Text style={{color:'white'}}>Checkout</Text>

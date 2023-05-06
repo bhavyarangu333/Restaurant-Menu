@@ -55,7 +55,7 @@ const NewAuth = () => {
             </Pressable>
 
             <AddressSheet
-                presentationStyle='fullscreen'
+                presentationStyle='popover'
                 onSubmit={async (addressDetails) => {
                     // handle result                
                     createUserWithEmailAndPassword(auth, email, password)
@@ -106,31 +106,31 @@ const NewAuth = () => {
 
 const styles = StyleSheet.create({
 
-        container: {
-            flex: 1,
-            backgroundColor: 'white',
-            alignItems:'center'
-        },
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems:'center'
+    },
 
-        input: {
-            padding: 10,
-            borderWidth: 1,
-            borderRadius: 8,
-            width: '90%',
-            marginVertical: 10
-        
-        },
+    input: {
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 8,
+        width: '90%',
+        marginVertical: 10
+    
+    },
 
-        button: {
-            marginTop: 20,
-            height: 50,
-            backgroundColor: '#894AFF',
-            borderRadius: 8,
-            borderWidth: 1,
-            width: '90%',
-            justifyContent:'center',
-            alignItems: 'center',
-            marginBottom: 30
+    button: {
+        marginTop: 20,
+        height: 50,
+        backgroundColor: '#894AFF',
+        borderRadius: 8,
+        borderWidth: 1,
+        width: '90%',
+        justifyContent:'center',
+        alignItems: 'center',
+        marginBottom: 30
     
         },
 });

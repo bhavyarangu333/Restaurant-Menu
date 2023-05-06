@@ -19,12 +19,13 @@ const fetchToken = async () => {
     return { token, delivery_id };
 };
 
-const makeDelivery = async () => {
+const makeDelivery = async (address) => {
     const { token, delivery_id } = await fetchToken();
 
     const body = JSON.stringify({
         external_delivery_id: delivery_id,
-        pickup_address: '11745 Whittier Blvd, Whittier',
+        // pickup_address: '11745 Whittier Blvd, Whittier',
+        pickup_address: address,
         pickup_business_name: 'China Wok Express',
         pickup_phone_number: '+16505555555',
         pickup_instructions: 'Enter gate code 1234 on the callbox.',
