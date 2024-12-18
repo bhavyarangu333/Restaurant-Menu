@@ -1,5 +1,5 @@
 # CPSC 362 - Restaurant Menu Project
-
+A team of three collaborated on this project, contributing their unique skills and expertise to ensure its success.
 ## Environment Setup Before Cloning Project
 
 1. Install Node.js LTS version at **https://nodejs.org/en/download/**
